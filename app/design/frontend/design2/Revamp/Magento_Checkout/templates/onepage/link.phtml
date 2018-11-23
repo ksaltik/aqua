@@ -1,0 +1,49 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php if ($block->isPossibleOnepageCheckout()):?>
+
+    <?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+    $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+    $items = $cart->getQuote()->getAllVisibleItems();
+    $enable=1;
+    foreach ($items as $item) {
+         //   echo $item->getSku();echo "<br/>";
+        if($item->getPrice()==0){
+            $enable=0;
+        }
+    }
+    if($enable==1) {
+        ?>
+        <button type="button"
+                data-role="proceed-to-checkout"
+                title="<?php /* @escapeNotVerified */
+                echo __('Proceed to Checkout') ?>"
+                data-mage-init='{"Magento_Checkout/js/proceed-to-checkout":{"checkoutUrl":"<?php /* @escapeNotVerified */
+                echo $block->getCheckoutUrl(); ?>"}}'
+                class="action primary checkout<?php echo ($block->isDisabled()) ? ' disabled' : ''; ?>"
+                <?php if ($block->isDisabled()): ?>disabled="disabled"<?php endif; ?>>
+            <span><?php /* @escapeNotVerified */
+                echo __('Proceed to Checkout') ?></span>
+        </button>
+        <br/><br/>
+        <?php
+    }
+    ?>
+    <?php
+    $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+    $link= $this->getUrl('quickrfq/index');
+    if($customerSession->isLoggedIn()) {
+        $link= $this->getUrl('quickrfq/request');
+    }
+    ?>
+    <button onclick="location.href='<?php echo $link;?>';" type="button" title="<?php /* @escapeNotVerified */ echo __('Request A Quote') ?>" class="action primary checkout<?php echo($block->isDisabled()) ? ' disabled' : ''; ?>" <?php if ($block->isDisabled()):?>disabled="disabled"<?php endif; ?>> <span><?php /* @escapeNotVerified */ echo __('Request A Quote') ?></span>
+    </button>
+<?php endif?>

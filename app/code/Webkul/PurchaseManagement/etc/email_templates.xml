@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="purchasemanagement_rfqsupplier_email" label="RFQ Email to Seller" file="rfqseller.html" type="html" module="Webkul_PurchaseManagement" area="adminhtml"/>
+    <template id="purchasemanagement_comment_email" label="Comment Notification to Seller" file="comment_email.html" type="html" module="Webkul_PurchaseManagement" area="adminhtml"/>
+    <template id="purchasemanagement_email_quotation_template" label="Quotation template" file="quotation.html" type="html" module="Webkul_PurchaseManagement" area="adminhtml"/>
+    <template id="purchasemanagement_email_order_template" label="Order template" file="order.html" type="html" module="Webkul_PurchaseManagement" area="adminhtml"/>
+</config>

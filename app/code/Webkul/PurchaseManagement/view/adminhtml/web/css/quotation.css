@@ -1,0 +1,23 @@
+.wk_pm_padding_right {
+    padding-right: 5px;
+}
+#purchasemanagement_quotation_supplier {
+    padding: 5px;
+}
+.entry-edit-head {
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.quotation_legend {
+   
+    font-size: 1.3em;
+}
+#add_product_button{
+    display: inline;
+    float: right;
+}
+#add_selected_product_button{
+    display: inline;
+    float: right;
+}

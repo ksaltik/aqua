@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Webkul_PurchaseManagement::purchase" title="Purchase Management" module="Webkul_PurchaseManagement" sortOrder="25" resource="Webkul_PurchaseManagement::purchase"/>
+    	<add id="Webkul_PurchaseManagement::quotation" title="Quotations"
+            module="Webkul_PurchaseManagement" sortOrder="1" parent="Webkul_PurchaseManagement::purchase"
+            action="purchasemanagement/quotation/index" resource="Webkul_PurchaseManagement::quotation" />
+        <add id="Webkul_PurchaseManagement::order" title="Purchase Order"
+            module="Webkul_PurchaseManagement" sortOrder="2" parent="Webkul_PurchaseManagement::purchase"
+            action="purchasemanagement/order/index" resource="Webkul_PurchaseManagement::order" />
+        <add id="Webkul_PurchaseManagement::shipments" title="Incoming Shipments"
+	        module="Webkul_PurchaseManagement" sortOrder="3" parent="Webkul_PurchaseManagement::purchase"
+	        action="purchasemanagement/picking/index" resource="Webkul_PurchaseManagement::shipments" />
+	    <add id="Webkul_PurchaseManagement::products" title="Incoming Products"
+	        module="Webkul_PurchaseManagement" sortOrder="4" parent="Webkul_PurchaseManagement::purchase"
+	        action="purchasemanagement/move/index" resource="Webkul_PurchaseManagement::products" />
+	    <add id="Webkul_PurchaseManagement::suppliers" title="Manage Suppliers"
+	        module="Webkul_PurchaseManagement" sortOrder="5" parent="Webkul_PurchaseManagement::purchase"
+	        action="purchasemanagement/suppliers/index" resource="Webkul_PurchaseManagement::suppliers" />
+	    <add id="Webkul_PurchaseManagement::config_purchasemanagement" title="Purchase Configuration"
+	        module="Webkul_PurchaseManagement" sortOrder="6" parent="Webkul_PurchaseManagement::purchase"
+	        action="adminhtml/system_config/edit/section/purchasemanagement" resource="Webkul_PurchaseManagement::config_purchasemanagement" />
+   	</menu>
+</config>

@@ -1,0 +1,128 @@
+Reason,Reason
+About Reason,About Reason
+Status,Status
+Enabled,Enabled
+Disabled,Disabled
+Save Reason,Save Reason
+New Reason,New Reason
+Sender Type,Sender Type
+ID,ID
+Message,Message
+Date,Date
+Information,Information
+RMA Information,RMA Information
+Product Id,Product Id
+Product Name,Product Name
+Sku,Sku
+Qty,Qty
+RMA Details,RMA Details
+Conversation,Conversation
+Product Details,Product Details
+RMA Panel,RMA Panel
+All RMA,All RMA
+Manage Reasons,Manage Reasons
+Reasons,Reasons
+Reason edited succesfully.,Reason edited succesfully.
+Reason saved succesfully.,Reason saved succesfully.
+There was some error while processing your request.,There was some error while processing your request.
+Details,Details
+Message sent,Message sent
+RMA,RMA
+RMA request canceled.,RMA request canceled.
+Invalid Request,Invalid Request
+Quantity not allowed for RMA.,Quantity not allowed for RMA.
+Error in image uploading.,Error in image uploading.
+Image type not allowed.,Image type not allowed.
+New RMA request generated.,New RMA request generated.
+Something went wrong.,Something went wrong.
+New RMA,New RMA
+View RMA,View RMA
+Guest All RMA,Guest All RMA
+Guest Login,Guest Login
+Invalid details for guest.,Invalid details for guest.
+Pending,Pending
+Processing,Processing
+Solved,Solved
+Declined,Declined
+Refund,Refund
+Replace,Replace
+Cancel Items,Cancel Items
+Delivered,Delivered
+Not Delivered,Not Delivered
+Canceled,Canceled
+Not Receive Package yet,Not Receive Package yet
+Received Package,Received Package
+Dispatched Package,Dispatched Package
+Total must be positive.,Total must be positive.
+Cannot create online refund.,Cannot create online refund.
+Unable to save credit memo right now.,Unable to save credit memo right now.
+RMA is canceled by Customer.,RMA is canceled by Customer.
+RMA is declined by Seller.,RMA is declined by Seller.
+RMA is Solved.,RMA is Solved.
+New RMA is requested by customer.,New RMA is requested by customer.
+New RMA is requested by guest.,New RMA is requested by guest.
+You requested new RMA.,You requested new RMA.
+RMA status is updated.,RMA status is updated.
+Guest,Guest
+Seller sent message on RMA #%1,Seller sent message on RMA #%1
+Customer sent message on RMA #%1,Customer sent message on RMA #%1
+There is some error in preview image.,There is some error in preview image.
+Quantity not allowed for RMA.,Quantity not allowed for RMA.
+Please select item.,Please select item.
+Please select quantity.,Please select quantity.
+Image type not allowed.,Image type not allowed.
+Order Id,Order Id
+RMA Status,RMA Status
+Order Status,Order Status
+Resolution Type,Resolution Type
+Additional Information,Additional Information
+Images,Images
+Change RMA Status,Change RMA Status
+Save,Save
+Refund Amount,Refund Amount
+Payment Type,Payment Type
+Full Amount,Full Amount
+Partial Amount,Partial Amount
+Refund Offline,Refund Offline
+Send Message,Send Message
+Enter Message,Enter Message
+Request New RMA,Request New RMA
+RMA History,RMA History
+Id,Id
+Order #,Order #
+Product,Product
+Action,Action
+You didn't request any RMA.,You didn't request any RMA.
+Orders,Orders
+Select Order,Select Order
+Product Name,Product Name
+Sku,Sku
+Quantity,Quantity
+Price,Price
+No Order Selected,No Order Selected
+RMA Reason,RMA Reason
+Submit Request,Submit Request
+Close RMA,Close RMA
+Please Agree To Mark it as solved.,Please Agree To Mark it as solved.
+Item(s) Requested for RMA,Item(s) Requested for RMA
+Conversations,Conversations
+Seller,Seller
+Customer,Customer
+Administrator,Administrator
+Email,Email
+Login,Login
+Items Ordered,Items Ordered
+Select Reason,Select Reason
+You have no requested RMA.,You have no requested RMA.
+Change RMA Status,Change RMA Status
+Confirmation,Confirmation
+Do you want to cancel RMA ?,Do you want to cancel RMA ?
+"Invalid Image Format. jpeg, jpg, gif, png are accepted","Invalid Image Format. jpeg, jpg, gif, png are accepted"
+Enter Consignment Number,Enter Consignment Number
+Please select item,Please select item
+Image(s) are not selected,Image(s) are not selected
+Select Seller,Select Seller
+Warning,Warning
+Select Quantity,Select Quantity
+Add Images,Add Images
+Item(s) Requested for RMA,Item(s) Requested for RMA

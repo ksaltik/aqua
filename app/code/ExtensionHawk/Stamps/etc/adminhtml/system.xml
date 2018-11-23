@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="stamps" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Stamps</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+				<field id="api_user" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API User ID</label>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="api_pass" translate="label" type="password" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Password</label>
+                    <validate>required-entry</validate>
+                </field>
+				<field id="api_mode" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Mode</label>
+					<source_model>ExtensionHawk\Stamps\Model\Config\Source\ApiMode</source_model>
+                                        <comment><![CDATA[<p style="color:#eb5202;">IP Address should be whitelisted by Stamps.com for Test mode <i>(this is not a requirement for the production environment).<a href="http://developer.stamps.com/assets/documents/developer/downloads/Stamps.com_SWS_How_To_Get_Started.pdf" target="_blank">More info</a></i></p>]]></comment>
+                </field>
+                <field id="shipment_requesttype" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Packages Request Type</label>
+                    <source_model>Magento\Shipping\Model\Config\Source\Online\Requesttype</source_model>
+                </field>
+				<field id="max_package_weight" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum Package Weight (Please consult your shipping carrier for maximum supported shipping weight)</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+				<field id="insurance" translate="label" type="select" sortOrder="196" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Insurance</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="hiddenpostage" translate="label" type="select" sortOrder="197" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hidden Postage</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+				<field id="printlayout" translate="label" type="select" sortOrder="198" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Print Layout</label>
+                    <source_model>ExtensionHawk\Stamps\Model\Config\Source\PrintLayout</source_model>
+                </field>
+                <field id="handling_type" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Calculate Handling Fee</label>
+                    <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
+                </field>
+                <field id="handling_fee" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Handling Fee</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+				<field id="allowed_methods" translate="label" type="multiselect" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allowed Methods</label>
+                    <source_model>ExtensionHawk\Stamps\Model\Config\Source\Method</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="showmethod" translate="label" type="select" sortOrder="92" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Show Method if Not Applicable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+				<field id="debug" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Debug</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,78 @@
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SlideTweet
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+/*New css start here*/
+.wk_tweet_image {
+        border:none;
+        display:inline-block;
+        margin: 10px; }
+.wk_tweet_user{
+        display:inline-block;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+}
+.wk_tweet_user a{
+        padding-top: :10px;
+}
+.wk_tweet_time{
+        padding-top: 11px;
+        color: #8B7B7B;
+        float: right;
+}
+.wk_tweet_main{
+        width:100%;
+        display:inline-block;
+}
+.wk_design{
+        border: 1px solid #ADB7AD;
+        margin: 6px 10px 7px 8px;
+        padding-bottom:8px;
+}
+.twitterSearchContainter{
+        overflow: hidden;
+}
+.twitter{
+        border-radius:10px;
+}
+.twitter a{
+        cursor:pointer;
+}
+.twitterSearchTitle{
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        font-weight: bold;
+        font-size: large;
+        position: relative;
+        text-transform:uppercase;
+}
+#load .wk_loader {
+        background: none repeat scroll 0 0 #FFF4E9;
+        border: 2px solid #F1AF73;
+        color: #D85909;
+        font-weight: bold;
+        left: 61%;
+        margin-left: -155px;
+        padding: 15px 30px;
+        position: relative;
+        text-align: center;
+        width: 150px;
+        z-index: 1000;
+}
+#load {
+        color: #D85909;
+        font-size: 1.1em;
+        font-weight: bold;
+        opacity: 0.8;
+        position: relative;
+        text-align: center;
+        z-index: 500;
+        top: 24px;
+}

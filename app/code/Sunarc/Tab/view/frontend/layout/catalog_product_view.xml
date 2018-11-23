@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.details">
+            <block class="Magento\Catalog\Block\Product\View" name="custom.tab" template="Sunarc_Tab::product/view/details/custom_tab.phtml" group="detailed_info">
+                <arguments>
+                    <argument name="title" xsi:type="helper" helper="Sunarc\Tab\Helper\Data::getTabFirstName"></argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="custom.tab2" template="Sunarc_Tab::product/view/details/custom_tab_2.phtml" group="detailed_info">
+                <arguments>
+                    <argument name="title" xsi:type="helper" helper="Sunarc\Tab\Helper\Data::getTabTwoName"></argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="custom.tab3" template="Sunarc_Tab::product/view/details/custom_tab_3.phtml" group="detailed_info">
+                <arguments>
+                    <argument name="title" xsi:type="helper" helper="Sunarc\Tab\Helper\Data::getTabThreeName"></argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

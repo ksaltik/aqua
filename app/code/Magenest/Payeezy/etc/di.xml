@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="PayeezyConfig" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="string">payeezy</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyLogger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magenest\Payeezy\Gateway\Helper\Authorization">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="PayeezyTransferFactory" type="Magenest\Payeezy\Gateway\Http\TransferFactory">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magenest\Payeezy\Block\Info">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </type>
+    <virtualType name="PayeezyFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="string">payeezy</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Magenest\Payeezy\Block\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">PayeezyValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">PayeezyValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">PayeezyCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">PayeezyDefaultValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyDefaultValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">PayeezyCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">PayeezyConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyZendHttpClient" type="Magenest\Payeezy\Gateway\Http\Client\Zend">
+        <arguments>
+            <argument name="logger" xsi:type="object">PayeezyLogger</argument>
+            <argument name="converter" xsi:type="object">Magenest\Payeezy\Gateway\Http\Converter\JsonToArray</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">PayeezyAuthorizeGatewayCommand</item>
+                <item name="capture" xsi:type="string">PayeezyCaptureStrategyCommand</item>
+                <item name="pre_auth_capture" xsi:type="string">PayeezyPreCaptureGatewayCommand</item>
+                <item name="cancel_order" xsi:type="string">Magento\Payment\Gateway\Command\NullCommand</item>
+                <item name="sale" xsi:type="string">PayeezyPurchaseGatewayCommand</item>
+                <item name="refund" xsi:type="string">PayeezyRefundGatewayCommand</item>
+                <item name="void" xsi:type="string">PayeezyVoidGatewayCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="PayeezyCaptureStrategyCommand" type="Magenest\Payeezy\Gateway\Command\CaptureStrategyCommand">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">PayeezyCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Start Authorize Command @TODO Validator-->
+    <virtualType name="PayeezyAuthorizeGatewayCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayeezyAuthorizeDataBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">PayeezyTransferFactory</argument>
+            <argument name="client" xsi:type="object">PayeezyZendHttpClient</argument>
+            <argument name="handler" xsi:type="object">PayeezyDirectResponseHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyAuthorizeDataBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">AuthorizeTransactionDataBuilder</item>
+                <item name="order_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\OrderDetailsDataBuilder</item>
+                <item name="card_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\CardDetailsDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AuthorizeTransactionDataBuilder" type="Magenest\Payeezy\Gateway\Request\TransactionDataBuilder">
+        <arguments>
+            <argument name="transactionType" xsi:type="const">Magenest\Payeezy\Gateway\Request\AbstractDataBuilder::AUTHORIZE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyDirectResponseHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">Magenest\Payeezy\Gateway\Response\PaymentDetailsHandler</item>
+                <item name="card_details" xsi:type="string">Magenest\Payeezy\Gateway\Response\Direct\CardDetailsHandler</item>
+                <item name="response_messages" xsi:type="string">Magenest\Payeezy\Gateway\Response\ResponseMessagesHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- End Authorize Command -->
+
+    <!-- Start Pre Capture Command @TODO Validator-->
+    <virtualType name="PayeezyPreCaptureGatewayCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayeezyPreCaptureDataBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">PayeezyTransferFactory</argument>
+            <argument name="client" xsi:type="object">PayeezyZendHttpClient</argument>
+            <argument name="handler" xsi:type="object">PayeezyPreCaptureResponseHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyPreCaptureDataBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">PreCaptureTransactionDataBuilder</item>
+                <item name="transaction_id" xsi:type="string">Magenest\Payeezy\Gateway\Request\TransactionIdDataBuilder</item>
+                <item name="order_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\OrderDetailsDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PreCaptureTransactionDataBuilder" type="Magenest\Payeezy\Gateway\Request\TransactionDataBuilder">
+        <arguments>
+            <argument name="transactionType" xsi:type="const">Magenest\Payeezy\Gateway\Request\AbstractDataBuilder::PRE_CAPTURE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyPreCaptureResponseHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="capture" xsi:type="string">Magenest\Payeezy\Gateway\Response\TransactionCaptureHandler</item>
+                <item name="response_messages" xsi:type="string">Magenest\Payeezy\Gateway\Response\ResponseMessagesHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- End Authorize Command -->
+
+    <!-- Start Purchase(Capture) Command @TODO Validator-->
+    <virtualType name="PayeezyPurchaseGatewayCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayeezyPurchaseDataBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">PayeezyTransferFactory</argument>
+            <argument name="client" xsi:type="object">PayeezyZendHttpClient</argument>
+            <argument name="handler" xsi:type="object">PayeezyDirectResponseHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyPurchaseDataBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">PurchaseTransactionDataBuilder</item>
+                <item name="order_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\OrderDetailsDataBuilder</item>
+                <item name="card_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\CardDetailsDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PurchaseTransactionDataBuilder" type="Magenest\Payeezy\Gateway\Request\TransactionDataBuilder">
+        <arguments>
+            <argument name="transactionType" xsi:type="const">Magenest\Payeezy\Gateway\Request\AbstractDataBuilder::AUTHORIZE_AND_CAPTURE</argument>
+        </arguments>
+    </virtualType>
+    <!-- End Purchase Command -->
+
+    <!-- Start Void Command @TODO Validator-->
+    <virtualType name="PayeezyVoidGatewayCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayeezyVoidDataBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">PayeezyTransferFactory</argument>
+            <argument name="client" xsi:type="object">PayeezyZendHttpClient</argument>
+            <argument name="handler" xsi:type="object">PayeezyVoidResponseHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyVoidDataBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">VoidTransactionDataBuilder</item>
+                <item name="void" xsi:type="string">Magenest\Payeezy\Gateway\Request\VoidDataBuilder</item>
+                <item name="transaction_id" xsi:type="string">Magenest\Payeezy\Gateway\Request\TransactionIdDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="VoidTransactionDataBuilder" type="Magenest\Payeezy\Gateway\Request\TransactionDataBuilder">
+        <arguments>
+            <argument name="transactionType" xsi:type="const">Magenest\Payeezy\Gateway\Request\AbstractDataBuilder::VOID</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyVoidResponseHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="void" xsi:type="string">Magenest\Payeezy\Gateway\Response\TransactionVoidHandler</item>
+                <item name="response_messages" xsi:type="string">Magenest\Payeezy\Gateway\Response\ResponseMessagesHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- End Void Command -->
+
+    <!-- Start Refund Command @TODO Validator-->
+    <virtualType name="PayeezyRefundGatewayCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PayeezyRefundDataBuilder</argument>
+            <argument name="transferFactory" xsi:type="object">PayeezyTransferFactory</argument>
+            <argument name="client" xsi:type="object">PayeezyZendHttpClient</argument>
+            <argument name="handler" xsi:type="object">PayeezyRefundResponseHandler</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyRefundDataBuilder" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">RefundTransactionDataBuilder</item>
+                <item name="order_details" xsi:type="string">Magenest\Payeezy\Gateway\Request\OrderDetailsDataBuilder</item>
+                <item name="transaction_id" xsi:type="string">Magenest\Payeezy\Gateway\Request\TransactionIdDataBuilder</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RefundTransactionDataBuilder" type="Magenest\Payeezy\Gateway\Request\TransactionDataBuilder">
+        <arguments>
+            <argument name="transactionType" xsi:type="const">Magenest\Payeezy\Gateway\Request\AbstractDataBuilder::REFUND</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PayeezyRefundResponseHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="refund" xsi:type="string">Magenest\Payeezy\Gateway\Response\TransactionRefundHandler</item>
+                <item name="response_messages" xsi:type="string">Magenest\Payeezy\Gateway\Response\ResponseMessagesHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- End Refund Command -->
+</config>

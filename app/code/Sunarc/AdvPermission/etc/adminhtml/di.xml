@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Sunarc_AdvPermission extension
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the SunArc Technologies License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://sunarctechnologies.com/end-user-agreement/
+ * 
+ * @category  Sunarc
+ * @package   Sunarc_AdvPermission
+ * @copyright Copyright (c) 2017
+ * @license
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\User\Block\User\Edit\Tab\Main">
+        <plugin name="splitorder_admin_user_form" type="Sunarc\AdvPermission\Plugin\Block\Adminhtml\User\Edit\Tab\Main" sortOrder="1"/>
+    </type>
+    <preference for="Magento\User\Block\Role\Tab\Edit" type="Sunarc\AdvPermission\Block\Adminhtml\Role\Splitattribute" />
+    <preference for="Magento\User\Block\Role\Edit" type="Sunarc\AdvPermission\Block\Adminhtml\Role\Edit"/>
+    <preference for="Magento\Sales\Block\Adminhtml\Order\Create\Store\Select" type="Sunarc\AdvPermission\Block\Adminhtml\Order\Create\Store\Select"/>
+    <preference for="Magento\CatalogRule\Model\ResourceModel\Grid\Collection" type="Sunarc\AdvPermission\Model\Magento\CatalogRule\ResourceModel\Grid\Collection" />
+    <preference for="Magento\SalesRule\Model\ResourceModel\Rule\Quote\Collection" type="Sunarc\AdvPermission\Model\Magento\SalesRule\ResourceModel\Rule\Collection" />
+    <preference for="Magento\Reports\Model\ResourceModel\Review\Customer\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Report\Review\Customer\Collection" />
+    <preference for="Magento\Reports\Model\ResourceModel\Review\Product\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Report\Review\Product\Collection" />
+    <preference for="Magento\Reports\Block\Adminhtml\Shopcart\Product\Grid" type="Sunarc\AdvPermission\Model\ResourceModel\Report\Marketing\Productincart" />
+    <preference for="Magento\Reports\Model\ResourceModel\Quote\Item\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Quote\Item\Collection" />
+    <preference for="Magento\Reports\Block\Adminhtml\Shopcart\Abandoned\Grid" type="Sunarc\AdvPermission\Model\ResourceModel\Report\Marketing\Abandonedcarts" />
+    <preference for="Magento\Catalog\Model\ResourceModel\Product\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Product\Collection" />
+    <preference for="Magento\Backend\Block\Widget\Grid" type="Sunarc\AdvPermission\Model\ResourceModel\Report\Marketing\Searchterm" />
+    <preference for="Magento\Catalog\Model\ResourceModel\Category\Tree" type="Sunarc\AdvPermission\Model\ResourceModel\Category\Tree" />
+    <preference for="Magento\Backend\Block\Widget\Button" type="Sunarc\AdvPermission\Model\ResourceModel\Block\Widget\Button" />
+    <preference for="Magento\Store\Ui\Component\Listing\Column\Store\Options" type="Sunarc\AdvPermission\Ui\Component\Listing\Column\Store\Options" />
+    <preference for="Magento\Cms\Ui\Component\Listing\Column\Cms\Options" type="Sunarc\AdvPermission\Ui\Component\Listing\Column\Cms\Options" />
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Websites" type="Sunarc\AdvPermission\Ui\DataProvider\Product\Form\Modifier\Websites" />
+    <preference for="Magento\Store\Model\System\Store" type="Sunarc\AdvPermission\Model\System\Store" />
+    <preference for="Magento\Review\Model\ResourceModel\Review\Product\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Review\Product\Collection" />
+    <preference for="Magento\Sales\Model\ResourceModel\Transaction\Grid\Collection" type="Sunarc\AdvPermission\Model\ResourceModel\Transaction\Grid\Collection" />
+    <preference for="Magento\Customer\Controller\Adminhtml\Index\Save" type="Sunarc\AdvPermission\Controller\Adminhtml\Index\Savecustomer" />
+    <!--
+    <preference for="Magento\Backend\Block\Store\Switcher" type="Sunarc\AdvPermission\Block\Adminhtml\Store\SwitcherFilter"/>
+    <preference for="Magento\Store\Model\WebsiteRepository" type="Sunarc\AdvPermission\Model\WebsiteRepository"/>
+    <preference for="Magento\Store\Model\StoreRepository" type="Sunarc\AdvPermission\Model\StoreRepository"/>-->
+</config>

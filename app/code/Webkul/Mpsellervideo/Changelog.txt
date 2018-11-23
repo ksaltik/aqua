@@ -1,0 +1,29 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.3 --------------------------------------
+
+	+ Updated composer.json as per magento 2.2.x version.
+	+ Compatible with Marketplace 2.1.x
+	+ Compatible with Magento 2.2.x
+	+ Compatible with Marketplace Seller Subaccount Module.
+
+-------------------------------- Version 2.0.2 --------------------------------------
+
+	+ Seller can add/edit a url with each image, which will be linked with respective images in video
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+	+ Updated composer.json file.
+	- bugs fixed
+
+-------------------------------- Version 2.0.0 --------------------------------------
+
+	+ Seller can upload multiple images for video.
+	+ Seller can set height and width for that video.
+	+ Seller can set video animation speed and video animation duration for that sldier.
+	+ Seller can delete that uploaded images for video.
+	+ Seller can mange images and video very easily.
+	+ Seller can upload images and change properties for video very easy and very fast.

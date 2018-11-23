@@ -1,0 +1,90 @@
+<?php ?>
+
+<?php
+$product_videos = $this->getProductVideos();
+?>
+
+<style type="text/css">
+    #my_video {
+  position: relative;
+  padding-bottom: 54%; 
+  padding-top: 20px;
+  height: 0;
+}
+
+#my_video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#my_video_swf_0{
+    height: 100%;
+}
+</style>
+<?php if (count($product_videos->getData()) != 0): ?>
+<body>
+<div id="wrapper">
+  <div class="product_video_module">
+  <div class="video" id="videoid" >
+            <div id="my_video">
+            </div>
+            
+        </div>
+         <div class="clear"></div>
+        <div id="error"></div>
+        <div class="clear"></div>
+        <div id="info" class="info" style="display:none;">
+            <h3 id="title"></h3>
+            <h4 id="time_frame"></h4>
+            <p id="content">
+            </p>
+      </div>
+    <div class="gallery">
+      <div id="demo">
+        <div id="owl-demo" class="owl-carousel">
+            <?php
+                $i = 1;
+                foreach ($product_videos as $_item):
+            ?> 	
+            <div class="item">
+                <?php $data = $this->_helper->getVideoData($_item);
+                ?>
+                <div class="thumb">
+                    <a id="play<?php echo $i ?>" href="javascript:void(0);" <?php echo $data ?> title="<?php echo $_item['title']; ?>" >
+                    <?php $img_url = $this->_helper->getImageUrl($_item['video_thumb']); ?>
+                    <span class="play">&#9658;</span>
+                    <div class="overlay"></div></a>
+                    <img src="<?php echo $img_url; ?>"  alt="<?php echo $_item["title"]; ?>" border="0" />
+                    </div>
+                    <div class="title"><a href="javascript:void(0);" <?php echo $data ?> title="<?php echo $_item['title']; ?>"><?php echo $_item["title"]; ?></a></div> 
+                </div>
+            <?php
+                $i++;
+                endforeach;
+            ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<?php else: ?>
+    <div class="message info empty"><div><?php echo __('We can\'t find videos for this Product.') ?></div></div>
+<?php endif; ?>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+
+<script >
+   require([
+    //"jquery", 
+   // "FME_Productvideos/js/owlcarousel/owlcarousel", 
+    "FME_Productvideos/js/jwplayer78", 
+    "jsfunctions"
+   
+    ], function (jwplayer78,jsfunctions) {
+
+
+});
+</script>
+

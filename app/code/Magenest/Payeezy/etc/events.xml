@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data_payeezy">
+        <observer name="payeezy_gateway_data_assign" instance="Magenest\Payeezy\Observer\DataAssignObserver" />
+    </event>
+    <event name="payment_method_is_active">
+        <observer name="custom_payment" instance="Magenest\Payeezy\Observer\PaymentMethodAvailable" />
+    </event>
+</config>

@@ -1,0 +1,186 @@
+<?php
+/**
+ * Copyright © 2018 PBMAGE. All rights reserved.
+ */
+$count = count($block->getCollection());
+
+if ($count > 0) {
+    $collection = $block->getCollection();
+
+    $customer = $block->getCustomerData();
+
+    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $websiteId = $_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId();
+    foreach ($collection as $attribute) {
+        $pbmageWebsiteCollection = $_objectManager->get('Pbmage\AttributeManager\Model\Pbmageattributewebsites')
+        ->getCollection()->addFieldToFilter('attribute_id',$attribute->getId())->getFirstItem();
+
+        $websiteArr = explode(',', $pbmageWebsiteCollection->getWebsiteIds());
+
+        if( in_array($websiteId, $websiteArr) ){
+            $countRecord[] = $attribute;
+        }
+    }
+
+    if( isset($countRecord) && count($countRecord) > 0 ){
+
+?>
+    </fieldset>
+    <fieldset class="fieldset create account additinalinfodealer" data-hasrequired="<?php /* @noEscape */ echo __('* Required Fields') ?>">
+        <legend class="legend"><span><?php /* @noEscape */ echo __('Additional Information') ?></span></legend><br/>
+        <?php foreach ($collection as $attribute) {
+
+            $pbmageWebsiteCollection = $_objectManager->get('Pbmage\AttributeManager\Model\Pbmageattributewebsites')
+            ->getCollection()->addFieldToFilter('attribute_id',$attribute->getId())->getFirstItem();
+
+            $websiteArr = explode(',', $pbmageWebsiteCollection->getWebsiteIds());
+
+            if( in_array($websiteId, $websiteArr) ){
+
+                $required = 'false';
+                $required_text = '';
+                $attribute_value = '';
+                $default_value = '';
+                $frontend_class = '';
+                $select_extra_name = '';
+                $select_extra = '';
+
+                $attribute_id = $attribute->getAttributeId();
+                $frontend_input = $attribute->getFrontendInput();
+                $attribute_code = $attribute->getAttributeCode();
+                $frontend_label = $attribute->getFrontendLabel();
+                $source_model = $attribute->getSourceModel();
+
+                if ($customer === null) {
+                    $default_value = $attribute->getDefaultValue();
+                    
+                    if ($frontend_input == 'date' && $default_value != '') {
+                        $default_value = date("m/d/Y", strtotime($default_value));
+                    }
+                }
+                if ($attribute->getIsRequired()) {
+                    $required = 'true';
+                    $required_text = ' required';
+                }
+                if ($frontend_input == 'text') {
+                    $frontend_class = $attribute->getFrontendClass();
+                }
+                if ($customer !== null) {
+                    $attribute_value = $customer->getData($attribute_code);
+                    if ($attribute_value == '') {
+                        $attribute_value = $attribute->getDefaultValue();
+                    }
+
+                    if ($frontend_input == 'date' && $attribute_value != '') {
+                        $attribute_value = date("m/d/Y", strtotime($attribute_value));
+                    }
+                } else {
+                    $attribute_value = $default_value;
+                }
+
+                if ($frontend_input == 'multiselect') {
+                    $select_extra_name = '[]';
+                    $select_extra = 'multiple="multiple" size="5"';
+                }
+                if ($attribute_value == 'NULL') {
+                    $attribute_value = '';
+                }
+            ?>
+                <?php if ($frontend_input == 'text' || $frontend_input == 'date') { ?>
+                    <div class="field <?php /* @noEscape */ echo $attribute_code.$required_text; ?>">
+                        <label for="<?php /* @noEscape */ echo $attribute_code; ?>" class="label">
+                            <span><?php /* @noEscape */ echo $frontend_label; ?></span>
+                        </label>
+                        <div class="control">
+                            <input name="<?php /* @noEscape */ echo $attribute_code; ?>" 
+                            id="<?php /* @noEscape */ echo $attribute_code; ?>" 
+                            title="<?php /* @noEscape */ echo $frontend_label; ?>" 
+                            class="input-text <?php /* @noEscape */ echo $frontend_class; ?>" 
+                            data-validate="{required:<?php /* @noEscape */ echo $required; ?>}" 
+                            autocomplete="off" 
+                            aria-required="<?php /* @noEscape */ echo $required; ?>" 
+                            type="text" 
+                            value="<?php /* @noEscape */ echo $attribute_value; ?>" 
+                            data-attr="<?php /* @noEscape */ echo $frontend_input; ?>">
+                        </div>
+                    </div>
+                <?php } elseif ($frontend_input == 'textarea') { ?>
+                    <div class="field <?php /* @noEscape */ echo $attribute_code.$required_text; ?>">
+                        <label for="<?php /* @noEscape */ echo $attribute_code; ?>" class="label">
+                            <span><?php /* @noEscape */ echo $frontend_label; ?></span>
+                        </label>
+                        <div class="control">
+                            <textarea name="<?php /* @noEscape */ echo $attribute_code; ?>" id="<?php /* @noEscape */ echo $attribute_code; ?>" title="<?php /* @noEscape */ echo $frontend_label; ?>" data-validate="{required:<?php /* @noEscape */ echo $required; ?>}" aria-required="<?php /* @noEscape */ echo $required; ?>"><?php /* @noEscape */ echo $attribute_value; ?></textarea>
+                        </div>
+                    </div>
+                <?php } elseif ($frontend_input == 'select' || $frontend_input == 'multiselect') { ?>
+                    <div class="field <?php /* @noEscape */ echo $attribute_code.$required_text; ?>">
+                        <label for="<?php /* @noEscape */ echo $attribute_code; ?>" class="label">
+                            <span><?php /* @noEscape */ echo $frontend_label; ?></span>
+                        </label>
+                        <div class="control">
+                            <select name="<?php /* @noEscape */ echo $attribute_code.$select_extra_name; ?>" 
+                                    id="<?php /* @noEscape */ echo $attribute_code; ?>" 
+                                    title="<?php /* @noEscape */ echo $frontend_label; ?>" 
+                                    data-validate="{required:<?php /* @noEscape */ echo $required; ?>}" 
+                                    aria-required="<?php /* @noEscape */ echo $required; ?>" 
+                                    <?php /* @noEscape */ echo $select_extra; ?>>
+                                <?php if ($frontend_input == 'select') { ?>
+                                    <option value=""><?php /* @noEscape */ echo __('-- Select --') ?></option>
+                                <?php } ?>
+                                <?php
+                                if ($source_model == 'Magento\Eav\Model\Entity\Attribute\Source\Boolean') {
+                                    foreach ($block->getYesNo() as $key => $val) {
+                                        $selected = '';
+                                        if ($attribute_value == $val['value']) {
+                                            $selected = 'selected="selected"';
+                                        }
+                                        /* @noEscape */ echo '<option '.$selected.' value="'.$val['value'].'">
+                                        '.$val['label'].'
+                                        </option>';
+                                    }
+                                } else {
+                                    $options = $block->getSelectOptionValues($attribute_id);
+                                    if ($options !== null) {
+                                        foreach ($options as $_option) {
+                                            $selected = '';
+                                            if ($frontend_input == 'multiselect') {
+                                                $all_selected = explode(",", $attribute_value);
+                                                if (in_array($_option['id'], $all_selected)) {
+                                                    $selected = 'selected="selected"';
+                                                }
+                                            } elseif ($attribute_value == $_option['id']) {
+                                                $selected = 'selected="selected"';
+                                            }
+                                            /* @noEscape */ echo '<option '.$selected.' value="'.$_option['id'].'">
+                                            '.$_option['store0'].
+                                            '</option>';
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>    
+                <?php } ?>
+            <?php } ?>
+        <?php } ?>
+    </fieldset>
+<?php } 
+    }
+
+$requestUri = $_SERVER['REQUEST_URI'];
+
+if (strpos($requestUri, 'pbam/account/dealerinfo') !== false) {
+?>
+    <script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+      jQuery(document).ready( function() {
+        jQuery( "fieldset.additinalinfodealer" ).prevAll().hide();
+      });
+    });
+    </script>
+<?php
+}
+?>
+

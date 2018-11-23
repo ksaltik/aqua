@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+/*////////////////////////////////////////////////////////////////////////////////
+ \\\\\\\\\\\\\\\\\\\\\\\\\  FME Productvideos Module  \\\\\\\\\\\\\\\\\\\\\\\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ \\\\\\\\\\\\\\\\\\\\\\\\\ NOTICE OF LICENSE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ ///////                                                                   ///////
+ \\\\\\\ This source file is subject to the Open Software License (OSL 3.0)\\\\\\\
+ ///////   that is bundled with this package in the file LICENSE.txt.      ///////
+ \\\\\\\   It is also available through the world-wide-web at this URL:    \\\\\\\
+ ///////          http://opensource.org/licenses/osl-3.0.php               ///////
+ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ ///////                      * @category   FME                            ///////
+ \\\\\\\                      * @package    FME_Productvideos              \\\\\\\
+ ///////    * @author    FME Extensions <support@fmeextensions.com>   ///////
+ \\\\\\\                                                                   \\\\\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ \\* @copyright  Copyright 2015 © fmeextensions.com All right reserved\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+     <type name="FME\Productvideos\Controller\Adminhtml\Productvideos\Image\Upload">
+    <arguments>
+        <argument name="imageUploader" xsi:type="object">ProductvideosImageUpload</argument>
+    </arguments>
+    </type>
+    <virtualType name="ProductvideosImageUpload" type="FME\Productvideos\Model\ImageUploader">
+    <arguments>
+        <argument name="baseTmpPath" xsi:type="string">productvideos/files</argument>
+        <argument name="basePath" xsi:type="string">productvideos/files</argument>
+        <argument name="allowedExtensions" xsi:type="array">
+           
+        </argument>
+      
+    </arguments>
+</virtualType>  
+
+
+    <type name="FME\Productvideos\Model\ResourceModel\Productvideos\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">productvideos</argument>
+            <argument name="eventPrefix" xsi:type="string">productvideos_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">productvideos_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">FME\Productvideos\Model\ResourceModel\Productvideos</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="productvideos_listing_data_source" xsi:type="string">FME\Productvideos\Model\ResourceModel\Productvideos\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="ProductvideosGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ProductvideosGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">FME\Productvideos\Model\ResourceModel\Productvideos\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">ProductvideosGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+   
+</config>

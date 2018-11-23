@@ -1,0 +1,259 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpRmaSystem
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $helper = $this->helper("Webkul\MpRmaSystem\Helper\Data");
+    $rmaDetails = $helper->getRmaDetails();
+    $orderRef = $rmaDetails->getOrderRef();
+    $orderId = $rmaDetails->getOrderId();
+    $order = $helper->getOrder($orderId);
+    $orderUrl = $this->getUrl("sales/order/view/")."order_id/".$orderId;
+    $rmaId = $rmaDetails->getId();
+    $images = $helper->getImages($rmaId);
+    $date = $rmaDetails->getCreatedDate();
+    $conversations = $block->getAllConversations();
+    $date = $block->formatDate($date, \IntlDateFormatter::MEDIUM, true);
+    $sellerName = $helper->getCustomerName($rmaId, true);
+    $customerName = $helper->getCustomerName($rmaId, false);
+    $status = $rmaDetails->getStatus();
+    $finalStatus = $rmaDetails->getFinalStatus();
+    $resolutionType = $rmaDetails->getResolutionType();
+    $rmaStatus = $helper->getRmaStatusTitle($status, $finalStatus);
+    $sellerStatus = $helper->getSellerStatusTitle($rmaDetails->getSellerStatus());
+    $orderStatus = $helper->getOrderStatusTitle($rmaDetails->getOrderStatus());
+    $resolution = $helper->getResolutionTypeTitle($rmaDetails->getResolutionType());
+    $productDetails = $helper->getRmaProductDetails($rmaId);
+    $totalPrice = 0;
+?>
+<div class="wk-mprma-container wk-mprma-view">
+    <div class="wk-title">
+        <?php echo __("RMA Details"); ?>
+        <span class="wk-date-info"><?php echo $date;?></span>
+    </div>
+    <form method="post" action="<?php echo $this->getUrl('mprmasystem/customer/create'); ?>" id="wk_new_rma_form" enctype="multipart/form-data" data-mage-init='{"validation":{}}'>
+        <fieldset class="fieldset wk-mprma-fieldset">
+            <div class="field">
+                <label for="Ordrer Id" class="label">
+                    <span><?php echo __("Order Id"); ?></span>
+                </label>
+                <div class="control">
+                    <a target="_blank" href="<?php echo $orderUrl;?>"><?php echo $orderRef;?></a>
+                </div>
+            </div>
+            <div class="field">
+                <label for="Status" class="label">
+                    <span><?php echo __("Status"); ?></span>
+                </label>
+                <div class="control">
+                    <div class="wk-row"><span><?php echo __("RMA Status"); ?> :</span> <?php echo $rmaStatus; ?></div>
+                    <div class="wk-row"><span><?php echo __("Seller Status") ?> :</span> <?php echo $sellerStatus;?></div>
+                    <?php if ($rmaDetails->getOrderStatus() != Webkul\MpRmaSystem\Helper\Data::ORDER_NOT_APPLICABLE):?>
+                        <div class="wk-row"><span><?php echo __("Order Status"); ?> :</span> <?php echo $orderStatus;?></div>
+                    <?php endif; ?>
+                    <?php if ($rmaDetails->getOrderStatus() == Webkul\MpRmaSystem\Helper\Data::ORDER_DELIVERED):?>
+                        <div class="wk-row"><span><?php echo __("Consignment Number"); ?> :</span> <?php echo $rmaDetails->getNumber();?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="field">
+                <label for="Resolution Type" class="label">
+                    <span><?php echo __("Resolution Type"); ?></span>
+                </label>
+                <div class="control">
+                    <?php echo $resolution;?>
+                </div>
+            </div>
+            <div class="field">
+                <label for="Additional Information" class="label">
+                    <span><?php echo __("Additional Information"); ?></span>
+                </label>
+                <div class="control">
+                    <?php echo $rmaDetails->getAdditionalInfo();?>
+                </div>
+            </div>
+            <?php if ($resolutionType == \Webkul\MpRmaSystem\Helper\Data::RESOLUTION_REFUND): ?>
+                <div class="field wk-refund-block wk-display-none">
+                    <label for="Refund Details" class="label">
+                        <span><?php echo __("Refund Details"); ?></span>
+                    </label>
+                    <div class="control">
+                        <div class="wk-row">
+                            <span><?php echo __("Refundable Amount"); ?> :</span>
+                            <span class="wk-refundable-amount"></span>
+                        </div>
+                        <?php if ($rmaDetails->getRefundedAmount() > 0): ?>
+                            <div class="wk-row">
+                                <span><?php echo __("Refunded Amount"); ?> :</span>
+                                <span class="wk-refunded-amount">
+                                    <?php echo $order->formatPrice($rmaDetails->getRefundedAmount()); ?>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if (count($images) > 0): ?>
+                <div class="field wk-lg">
+                    <label for="Images" class="label">
+                        <span><?php echo __("Images"); ?></span>
+                    </label>
+                    <div class="control">
+                        <div id="preview">
+                            <?php foreach ($images as $image): ?>
+                                <div class="wk-showcase-block">
+                                    <img src="<?php echo $image;?>">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </fieldset>
+    </form>
+    <div class="wk-title wk-close-title">
+        <?php echo __("Close RMA"); ?>
+    </div>
+    <fieldset class="fieldset wk-mprma-fieldset wk-close-filedset">
+        <div class="field">
+            <?php if($finalStatus == 0 || $finalStatus == 3): ?>
+                <form method="post" action="<?php echo $this->getUrl('mprmasystem/rma/close'); ?>" id="wk_rma_close_form" enctype="multipart/form-data" data-mage-init='{"validation":{}}'>
+                    <input type="hidden" value="<?php echo $rmaId; ?>" name="rma_id">
+                    <div class="control">
+                        <div class="wk-action-content">
+                            <input data-validate="{required:true}" class="input-text required-entry" type="checkbox" name="close_rma" value="1">
+                            <span><?php echo __("Please Agree To Mark it as solved."); ?></span>
+                        </div>
+                        <div class="wk-action-btn">
+                            <button title="Save" class="action save primary wk-save" type="submit"><span><?php echo __("Save"); ?></span></button>
+                        </div>
+                    </div>
+                </form>
+            <?php else: ?>
+                <?php echo $helper->getCloseRmaLabel($finalStatus); ?>
+            <?php endif; ?>
+        </div>
+    </fieldset>
+</div>
+<div class="wk-mprma-container wk-mprma-view">
+    <div class="wk-title">
+        <?php echo __("Item(s) Requested for RMA"); ?>
+    </div>
+    <div class="wk-table-wrapper">
+        <table id="mprma-items-table" class="data table">
+            <thead>
+                <tr>
+                    <th class="col" scope="col"><?php echo __("Product Name"); ?></th>
+                    <th class="col" scope="col"><?php echo __("Sku"); ?></th>
+                    <th class="col" scope="col"><?php echo __("Price"); ?></th>
+                    <th class="col" scope="col"><?php echo __("Qty"); ?></th>
+                    <th class="col" scope="col"><?php echo __("Reason"); ?></th>
+                </tr>
+            </thead>
+            <?php foreach ($productDetails as $product): ?>
+                <?php
+                    $totalPrice += $helper->getItemFinalPrice($product);
+                ?>
+                <tbody>
+                    <tr>
+                        <td class="col">
+                            <?php echo $product->getName(); ?>
+                            <?php echo $helper->getOptionsHtml($product); ?>
+                        </td>
+                        <td class="col"><?php echo $product->getSku(); ?></td>
+                        <td class="col"><?php echo $order->formatPrice($product->getData("price")); ?></td>
+                        <td class="col"><?php echo $product->getQty(); ?></td>
+                        <td class="col"><?php echo $helper->getReasonById($product->getReasonId());?></td>
+                    </tr>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</div>
+<?php if ($conversations->getSize()):?>
+    <div class="wk-mprma-container wk-mprma-view">
+        <div class="wk-title">
+            <?php echo __("Conversations"); ?>
+        </div>
+        <?php foreach ($conversations as $conversation): ?>
+            <?php
+                $date = $conversation->getCreatedTime();
+                $date = $block->formatDate($date, \IntlDateFormatter::MEDIUM, true);
+                $type = $conversation->getSenderType();
+                if ($type == 1) {
+                    $text = __("Seller")." : ".$sellerName;
+                    $class = "wk-mprma-seller-section";
+                } elseif ($type == 2) {
+                    $text = __("Customer")." : ".$customerName;
+                    $class = "wk-mprma-customer-section";
+                } elseif ($type == 3) {
+                    $text = __("Guest");
+                    $class = "wk-mprma-customer-section";
+                } else {
+                    $text = __("Administrator");
+                    $class = "wk-mprma-admin-section";
+                }
+            ?>
+            <div class="wk-mprma-conversation">
+                <div class="wk-mprma-conversation-head <?php echo $class; ?>">
+                    <div class="wk-mprma-conversation-head-left">
+                        <?php echo $date; ?>
+                    </div>
+                    <div class="wk-mprma-conversation-head-right">
+                        <?php echo $text; ?>
+                    </div>
+                </div>
+                <div class="wk-mprma-conversation-body">
+                    <?php echo $block->escapeHtml($conversation->getMessage()); ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    </div>
+<?php endif ?>
+<div class="wk-mprma-container wk-mprma-view">
+    <div class="wk-title">
+        <?php echo __("Send Message"); ?>
+    </div>
+    <form method="post" action="<?php echo $this->getUrl('mprmasystem/rma/conversation'); ?>" id="wk_rma_conversation_form" data-mage-init='{"validation":{}}'>
+        <input type="hidden" value="2" name="sender_type">
+        <input type="hidden" value="<?php echo $rmaId; ?>" name="rma_id">
+        <fieldset class="fieldset wk-mprma-fieldset wk-close-filedset">
+            <div class="field required">
+                <label for="Enter Message" class="label">
+                    <span><?php echo __("Enter Message"); ?></span>
+                </label>
+                <div class="control">
+                    <textarea name="message" data-validate="{required:true}" class="wk-rma-msg input-text required-entry"></textarea>
+                </div>
+                <div class="wk-action-btn">
+                    <button title="Save" class="action save primary wk-send" type="submit"><span><?php echo __("Send Message"); ?></span></button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<?php
+    $data = json_encode([
+                "totalPrice" => $totalPrice,
+                "totalPriceWithCurrency" => $order->formatPrice($totalPrice),
+                "errorMsg" => __("Partial amount can not be more then %1", $totalPrice),
+                "warningLable" => __("Warning")
+            ]);
+?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpRmaSystem/js/rma": <?php echo $data ?>
+        }
+    }
+</script>

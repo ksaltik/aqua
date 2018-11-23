@@ -1,0 +1,259 @@
+
+/*-------------------*/
+
+
+.product_video_module { width:100%; }
+
+.product_video_module h2 { font-family: 'Open Sans', sans-serif; font-size:32px; font-weight:400; color:#474e5c; padding-bottom:20px; }
+
+.product_video_module .video { width:100%; }
+
+.product_video_module .video img { max-width:100%; height:auto; }
+
+.product_video_module .info { width:auto; padding:30px; background:#f5f5f5; clear:both; border-bottom:#e7e7e7 1px solid; margin-top:15px; }
+
+.product_video_module .info h3 { font-family: 'Open Sans', sans-serif; font-size:24px; font-weight:400; color:#474e5c; padding-bottom:5px; }
+
+.product_video_module .info h4 { font-size:12px; font-weight:normal; color:#939395; padding:10px 0; }
+
+.product_video_module .info p { font-size:14px; font-weight:normal; color:#666; padding:5px 0; line-height:26px; }
+
+/*Gallery*/
+
+.product_video_module .gallery { width:100%; padding:10px 0 }
+
+.product_video_module .gallery h5 { font-family: 'Open Sans', sans-serif; font-size:18px; font-weight:400; color:#474e5c; padding-bottom:5px; }
+
+
+
+
+#owl-demo .item {
+    margin: 20px;
+    margin-top:45px;
+}
+#owl-demo .item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+
+/* 
+ * 	Core Owl Carousel CSS File
+ *	v1.3.3
+ */
+ 
+ #demo { max-width:1180px; margin:0 auto; padding:0 15px; }
+
+/* clearfix */
+.owl-carousel .owl-wrapper:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+/* display none until init */
+.owl-carousel{
+    display: none;
+    position: relative;
+    width: 100%;
+    -ms-touch-action: pan-y;
+}
+.owl-carousel .owl-wrapper{
+    display: none;
+    position: relative;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+}
+.owl-carousel .owl-wrapper-outer{
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.owl-carousel .owl-wrapper-outer.autoHeight{
+    -webkit-transition: height 500ms ease-in-out;
+    -moz-transition: height 500ms ease-in-out;
+    -ms-transition: height 500ms ease-in-out;
+    -o-transition: height 500ms ease-in-out;
+    transition: height 500ms ease-in-out;
+}
+    
+.owl-carousel .owl-item{
+    float: left;
+}
+.owl-controls .owl-page,
+.owl-controls .owl-buttons div{
+    cursor: pointer;
+}
+.owl-controls {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* mouse grab icon */
+.grabbing { 
+    cursor:url(../images/grabbing.png) 8 8, move;
+}
+
+/* fix */
+.owl-carousel  .owl-wrapper,
+.owl-carousel  .owl-item{
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility:    hidden;
+    -ms-backface-visibility:     hidden;
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  -ms-transform: translate3d(0,0,0);
+}
+
+/*
+*     Owl Carousel Owl Demo Theme 
+*    v1.3.3
+*/
+
+.owl-theme .owl-controls{
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Styling Next and Prev buttons */
+
+.owl-theme .owl-controls .owl-buttons div {
+    color: #FFF;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;/*IE7 life-saver */
+    margin: 5px;
+    font-size: 12px;
+    border-radius: 30px;
+    background: #869791;
+    filter: Alpha(Opacity=70);/*IE7 fix*/
+    opacity: 0.7;
+    position:relative;
+}
+
+
+
+.owl-theme .owl-controls .owl-buttons div.owl-prev,
+.owl-theme .owl-controls .owl-buttons div a.prev {
+    background:url(../images/arrow_left.png) no-repeat center;
+    left:-25px;
+    top:39%;
+    display:block;
+    width:24px;
+    height:24px;
+    position:absolute;
+}
+
+.owl-theme .owl-controls .owl-buttons div.owl-next,
+.owl-theme .owl-controls .owl-buttons div a.next {
+    background:url(../images/arrow_right.png) no-repeat center;
+    right:-25px;
+    top:39%;
+    display:block;
+    width:24px;
+    height:24px;
+    position:absolute;
+}
+
+
+
+
+
+/* Clickable class fix problem with hover on touch devices */
+/* Use it for non-touch hover action */
+.owl-theme .owl-controls.clickable .owl-buttons div:hover{
+    filter: Alpha(Opacity=100);/*IE7 fix*/
+    opacity: 1;
+    text-decoration: none;
+}
+
+/* Styling Pagination*/
+
+.owl-theme .owl-controls .owl-page{
+    display:none;
+    /*display: inline-block;*/
+    zoom: 1;
+    *display: inline;/*IE7 life-saver */
+}
+.owl-theme .owl-controls .owl-page span{
+    display: block;
+    width: 7px;
+    height: 7px;
+    margin: 5px 7px;
+    
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background: #474e5c;
+}
+
+.owl-theme .owl-controls .owl-page.active span,
+.owl-theme .owl-controls.clickable .owl-page:hover span{
+    
+    background: #f47922;
+}
+
+/* If PaginationNumbers is true */
+
+.owl-theme .owl-controls .owl-page span.owl-numbers{
+    height: auto;
+    width: auto;
+    color: #FFF;
+    padding: 2px 10px;
+    font-size: 12px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+
+/* preloading images */
+.owl-item.loading{
+    min-height: 150px;
+    background:../images/AjaxLoader.gif) no-repeat center center
+}
+
+
+/*Overlay*/
+
+.owl-carousel .thumb {position: relative; width:auto; height:auto;     border:#dadada 1px solid;}
+.owl-carousel .thumb a {position: absolute; top: 0; display: block; width: 100%; height: 100%; text-align: center; text-decoration: none;}
+.owl-carousel .thumb a .play, .thumb a .overlay {opacity: 0;}
+.owl-carousel .thumb a:hover .play, .thumb a:hover .overlay {display: block; transition: opacity .25s ease-in-out;-moz-transition: opacity .25s ease-in-out;-webkit-transition: opacity .25s ease-in-out;}
+
+.owl-carousel .thumb a:hover .play {position: absolute; font-size:45px; color: #ffffff; top : 35%; left : 38%;z-index: 1000; opacity: 1;}
+
+.owl-carousel .thumb a:hover .overlay {position: absolute; top: 0; width: 100%; height: 100%; background-color: #000000; opacity: .2;}
+
+
+.owl-carousel .item .title { text-align:center; padding:8px 0; padding-bottom:5px; font-family: 'Open Sans', sans-serif; font-size:14px; font-weight:400; color:#474e5c; line-height:26px; }
+
+.owl-carousel .item .title a { color:#474e5c }
+
+.owl-carousel .item .title a:hover { color:#1979c3 } 
+
+.owl-carousel .item .title p { font-family:Arial, Helvetica, sans-serif; text-align:center; font-size:11px; color:#8a8a8a; }
+
+
+@media (min-width: 200px) and (max-width: 400px) { 
+ 
+ .owl-carousel .thumb a:hover .play { font-size:38px; margin-top:39%; }
+
+}
+
+@media (min-width: 400px) and (max-width: 500px) { 
+ 
+ .owl-carousel .thumb a:hover .play { font-size:38px; margin-top:35%; }
+
+}
+
+@media (min-width: 500px) and (max-width: 600px) { 
+ 
+ .owl-carousel .thumb a:hover .play { font-size:38px; margin-top:35%; }
+
+}

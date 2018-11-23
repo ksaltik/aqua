@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+    	<css src="FME_Productvideos::css/style1.css" />
+    <css src="FME_Productvideos::css/owl.carousel.css" />
+    <script type="text/javascript" src='FME_Productvideos::js/owl.carousel.js'></script>
+   <script type="text/javascript" src='FME_Productvideos::js/jsfunctions.js'></script>
+   
+    </head>
+    <body>
+        <referenceBlock name="product.info.details">
+            <block class="FME\Productvideos\Block\Productvideos" name="productvideos.tab" after="product.info.description" as="productvideos" template="FME_Productvideos::productvideos.phtml" group="detailed_info" ifconfig="productvideos/general/enable_module">
+            </block>
+        </referenceBlock>
+    </body>
+</page>

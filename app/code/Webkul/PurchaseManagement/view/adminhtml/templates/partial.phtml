@@ -1,0 +1,90 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<div class="popup_background" id="popup_background">
+    <div class="popover">      
+        <div class="popover_top">Partial Shipment<span class="close_popup" onclick="close_this();">x</span></div>
+        <div class="popover-content">      
+
+
+    <table cellspacing="0" class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th class="a-center">Weight</th>
+                <th class="a-center">Receive Qty</th>
+            </tr>
+        </thead>
+<?php   $count = 1;
+        $collection = $block->getMoveObj()->getCollection()->addFieldToFilter("picking_id",$this->getRequest()->getParam("id"));
+        foreach ($collection as $order_item) {          ?>
+            <tbody class="<?php if($count % 2 == 0)echo 'even';else echo 'odd';?>">
+                <tr class="border">
+                    <td>
+                        <div class="item-container">
+                            <div class="item-text">
+                                <h5 class="title">
+                                    <span><?php echo $order_item->getDescription(); ?></span>
+                                </h5>
+                                <div><strong>SKU:</strong><?php echo $order_item->getSku(); ?></div>
+<?php                                   $option_array = unserialize($order_item->getCustomOptions());
+                                if($option_array && isset($option_array["options"])){  ?>
+                                    <dl class="item-options">
+                                    <?php foreach($option_array["options"] as $option) {  ?>
+                                            <dt><?php echo $option["label"];?></dt>
+                                            <dd><?php echo $option["value"];?></dd>
+                                    <?php  }       ?>
+                                    </dl>
+<?php                           }   ?>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="a-center"><strong><span><?php echo $order_item->getWeight();?></span></td>
+                    <td>                        
+                        <table cellspacing="0" class="qty-table">
+                            <tbody>
+                                <tr>                                   
+                                    <td><strong><input type="text" name="qty[<?php echo $order_item->getProductId(); ?>]" class="a-center prod_qty" value="<?php echo $order_item->getQuantity()-$order_item->getReceivedQty(); ?>"/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+<?php           $count++;
+        }           ?>
+        </table>
+
+
+
+        </div>
+        <div class="popover_bottom">
+            <span onclick="partial_save()" class="btn btn-primary caret">Receive now</span>
+        </div>
+    </div>
+</div>
+<script>
+require([
+    'jquery',
+    'Magento_Ui/js/modal/modal'
+    ],
+    function($,modal) {
+        var options = {
+            type: 'popup',responsive: true,innerScroll: true,title: 'partial'
+        };
+        var popup = modal(options, $('#popup_background'));
+        $('#popup_background').modal('openModal');
+        $('#popup_background button').on('click',function(){ //In case if popup want to show in onclick event then use button in you form
+        this.closeModal();
+        });
+    }
+);
+</script>

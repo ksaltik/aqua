@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpsellervideo
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="seller-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Webkul_Marketplace::css/wk_block.css"/>
+        <css src="Webkul_Marketplace::css/style.css"/>
+        <css src="Webkul_Mpsellervideo::css/demo.css"/>
+    </head>
+	<body>
+		<referenceBlock name="seller.page.main.title">
+			<action method="setPageTitle">
+				<argument translate="true" name="title" xsi:type="string">Add Video</argument>
+			</action>
+		</referenceBlock>
+		<referenceContainer name="seller.content">
+			<block class="Webkul\Mpsellervideo\Block\Profile" name="mpsellervideo_addimages_layout2" template="Webkul_Mpsellervideo::uploading.phtml" cacheable="false"></block>
+		</referenceContainer>
+	</body>
+</page>

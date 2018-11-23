@@ -1,0 +1,49 @@
+<?php 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpFedexShipping
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+?>
+<?php if($block->getConfigData('active') && $block->getConfigData('allow_seller')): ?>
+	<form class="form" action="<?php /* @escapeNotVerified */ echo $block->getUrl('mpfedex/shipping', ['_secure' => $this->getRequest()->isSecure()]) ?>" method="post" id="form-validate" data-mage-init='{"validation":{}}' enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" autocomplete="off">
+		<fieldset class="fieldset info">
+			<legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Fedex Configuration') ?></span>
+	        	<button type="submit" class="button wk-mp-btn action save primary">
+					<span><span><?php echo __('Save') ?></span></span>
+				</button>
+	        </legend><br>
+			<?php echo $block->getBlockHtml('formkey')?>
+			<div class="field required">
+            	<label class="label"><span><?php echo __("Account ID"); ?>:</span></label>
+                <div class="control">
+                    <input id="account_id" class="required-entry validate-greater-than-zero input" type="password" name="fedex_account_id" data-validate="{required:true}" value="<?php echo $block->_getCustomerData()->getFedexAccountId(); ?>" />
+                    <span class="note"><span><?php echo __("Please make sure to use only digits here. No dashes are allowed."); ?></span></span>
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><span><?php echo __("Meter Number"); ?>:</span></label>
+                <div class="control">
+                    <input id="meter_number" type="password" name="fedex_meter_number" data-validate="{required:true}" class="validate-greater-than-zero" value="<?php echo $block->_getCustomerData()->getFedexMeterNumber(); ?>" />
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><span><?php echo __("Key"); ?>:</span></label>
+                <div class="control">
+                    <input id="fedex_key" type="password" name="fedex_key" data-validate="{required:true}" value="<?php echo $block->_getCustomerData()->getFedexKey(); ?>" />
+                </div>
+            </div>
+            <div class="field required">
+                <label class="label"><span><?php echo __("Password"); ?>:</span></label>
+                <div class="control">
+                     <input id="fedex_password" type="password" name="fedex_password" data-validate="{required:true}" value="<?php echo $block->_getCustomerData()->getFedexPassword(); ?>" />
+                </div>
+            </div>
+		</fieldset>
+	</form>
+<?php endif; ?>

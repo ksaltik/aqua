@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="adminhtml_customer_save_after">
+		<observer instance="Sunarc\Distributed\Observer\Adminhtml\Customer\Customersaveafter" name="sunarc_distributed_observer_adminhtml_customer_customersaveafter_adminhtml_customer_save_after"/>
+	</event>
+</config>

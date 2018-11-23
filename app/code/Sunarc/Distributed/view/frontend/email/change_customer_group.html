@@ -1,0 +1,18 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Your %store_name customer group has been changed" store_name=$store.getFrontendName()}} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Hello"}} {{var name}},</p>
+<br>
+
+<p>Your customer group has been changed from  {{var oldGroup}} to {{var newGroup}}.{{var $store.getFrontendName()}}</p>
+<br>
+
+{{template config_path="design/email/footer_template"}}
+

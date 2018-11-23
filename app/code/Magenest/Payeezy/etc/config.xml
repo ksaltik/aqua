@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magenest. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <payeezy>
+                <active>1</active>
+                <model>PayeezyFacade</model>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <merchant_token backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <cctypes>AE,VI,MC,JCB,DI,DN</cctypes>
+                <date_delim>-</date_delim>
+                <cc_year_length>4</cc_year_length>
+                <ccfields>card_cvn,card_expiry_date,card_number</ccfields>
+                <sandbox_flag>1</sandbox_flag>
+                <order_status>pending</order_status>
+                <title>Credit Card (Payeezy)</title>
+                <allowspecific>0</allowspecific>
+                <payment_action>authorize</payment_action>
+                <payeezy_url>https://api.payeezy.com/v1/transactions/</payeezy_url>
+                <sandbox_payeezy_url>https://api-cert.payeezy.com/v1/transactions/</sandbox_payeezy_url>
+                <can_initialize>0</can_initialize>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_void>1</can_void>
+                <can_refund>1</can_refund>
+                <debug>1</debug>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_use_internal>1</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <debugReplaceKeys>card_number,cvv</debugReplaceKeys>
+                <paymentInfoKeys>transaction_type,cc_type,card_number,card_expiry_date,transaction_id,response_code,fraud_messages,approve_messages</paymentInfoKeys>
+            </payeezy>
+        </payment>
+    </default>
+</config>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="layout_generate_blocks_after">
+        <observer name="remove_success_block" instance="Sunarc\AdvPermission\Observer\RemoveBlock" />
+    </event>
+    <event name="sales_quote_item_set_product">
+        <observer name="splitorder_attribute_save" instance="Sunarc\AdvPermission\Observer\SalesQuoteItemSetSplitorderAttribute"/>
+    </event>
+    <event name="admin_permissions_role_prepare_save">
+        <observer name="saveRolesPermissions" instance="Sunarc\AdvPermission\Observer\RolePermissions"/>
+    </event>
+    <event name="admin_user_save_before">
+        <observer name="saveUserAttributeRestriction" instance="Sunarc\AdvPermission\Observer\UserAttributeRestriction"/>
+    </event>
+</config>

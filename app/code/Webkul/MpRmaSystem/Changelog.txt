@@ -1,0 +1,17 @@
+Legend
+
++ Features
+- Bugs
+
+-------------------------------- Version 2.0.1 --------------------------------------
+	+ Multiple items rma by seller feature added.
+	+ Multiple image in rma feature added.
+	+ Compatible with Marketplace 2.1.x
+	+ Compatible with Magento 2.2.0
+
+-------------------------------- Version 2.0.0 --------------------------------------
+	+ Return merchandise authorization for Magento Marketplace.
+	+ Buyer can generate RMA for Refund/Replace.
+	+ Buyer, Seller and Admin communication for requested RMA.
+	+ RMA history for seller and buyer with pagination.
+	+ Seller can do Full or Partial refund.

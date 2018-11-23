@@ -1,0 +1,142 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+$currency_symbol='';
+$source = "";
+	$supplier_id = "";
+	$quotation_id = $this->getRequest()->getParam("id");
+	if ($quotation_id) {
+        $quotation  = $this->helper('Webkul\PurchaseManagement\Helper\Data')->getOrder($quotation_id);
+        $source = $quotation->getSource();
+        $supplier_id = $quotation->getSupplierId();
+    }
+?>
+<script id="supplier-details-container" type="text/x-magento-template">
+
+	<?php
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+	$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+	$connection = $resource->getConnection();
+	//$tableName = $resource->getTableName('admin_user'); //gives table name with prefix
+	$tableName = $resource->getTableName('store_website'); //gives table name with prefix
+	 
+	//Select Data from table
+	$sql = "Select * FROM " . $tableName;
+	//$sql = "Select * FROM " . $tableName.' where website_id!="0"';
+	$result = $connection->fetchAll($sql); // gives associated array, table fields as key in array.
+	?>
+
+	<div class="cretaed-by-admin entry-edit">
+		<div>
+			<strong>
+				<label class="cretaed-by-admin-label">Select created by Admin: </label>
+			</strong>
+			<select name="website_id" required="required">
+				<option value="">--Select--</option>
+				<?php foreach ($result as $key => $value) {
+					//echo '<option value="'.$value['user_id'].'">'.$value["firstname"].' '.$value["lastname"].'</option>';
+					echo '<option value="'.$value['website_id'].'">'.$value["name"].'</option>';
+				} ?>
+			</select>
+		</div>		
+	</div>
+
+	<div class="entry-edit supplier_details_container box-right order-totals" style="display:none;">
+		<div class="entry-edit-head">
+			<span class="fieldset-legend title">Supplier Details</span>
+		</div>
+		<div class="fieldset">
+			<table class="form-list admin__table-secondary order-subtotal-table">
+			    <tbody>
+			        <tr>
+				        <td class="label"><label for="order-billing_address_prefix">Name</label></td>
+				    	<td class="value"><%- data.name %></td>
+				    </tr>
+					<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Email</label></td>
+				    	<td class="value"><%- data.email %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Company</label></td>
+				    	<td class="value"><%- data.company %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Street</label></td>
+				    	<td class="value"><%- data.street %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">City</label></td>
+				    	<td class="value"><%- data.city %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Country</label></td>
+				    	<td class="value"><%- data.country %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">State</label></td>
+				    	<td class="value"><%- data.state %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Zip</label></td>
+				    	<td class="value"><%- data.zip %></td>
+			    	</tr>
+			    	<tr>
+				        <td class="label"><label for="order-billing_address_firstname">Phone</label></td>
+				    	<td class="value"><%- data.phone %></td>
+			    	</tr>
+			    </tbody>
+			</table>
+		</div>
+	</div>
+</script>
+<div class="box-left comment_container" style="display: none">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4>Comments History</h4>
+        </div>
+        <fieldset>
+        	<div id="order_history_block">
+    			<div class="order-history-form" id="history_form">
+    				<div>Add Order Comments</div>
+				    <span class="field-row">
+				        <label for="history_comment" class="normal">Comment</label>
+				        <textarea id="history_comment" style="height:6em; width:99%;" cols="5" rows="3" name="comment"></textarea>
+				    </span>
+    				<div class="f-left">
+                        <input type="checkbox" value="1" id="history_notify" name="is_supplier_notified">
+                        <label for="history_notify" class="normal">Notify Supplier by Email</label>
+					</div>
+				    <div class="clear"></div>
+				</div>
+				<div class="divider"></div>
+			</div>
+		</fieldset>
+    </div>
+</div>
+<?php
+$formData = [
+    'source'	=> $source,
+    'supplier_url' =>  $block->getUrl("purchasemanagement/suppliers/getdetails", ["_secure" => $this->getRequest()->isSecure()]),
+    'supplier_id' => $supplier_id,
+    'product_grid'	=> $block->getUrl('purchasemanagement/quotation/getprogrid', ["_secure" => $this->getRequest()->isSecure()]),
+    'currency_symbol' => $currency_symbol,
+    'save_url'	=> $block->getUrl("purchasemanagement/history/save", ["_secure" => $this->getRequest()->isSecure()])
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "createquotation": <?php  echo $serializedFormData; ?>
+        }
+    }
+</script>

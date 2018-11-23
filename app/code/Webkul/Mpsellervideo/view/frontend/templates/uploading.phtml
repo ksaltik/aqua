@@ -1,0 +1,319 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpsellervideo
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$isPartner= $block->checkIsPartner();
+
+if (intval($isPartner)) {
+
+    $userid = $block->getSellerId();
+    $collection = $block->getSellerData();
+    $partner = $block->getPartnerProfileById($userid);
+    $secure = $block->getIsSecure();
+    $mediaUrl = $block->getMediaUrl();
+    $jsonHelper = $block->getJsonHelper();
+
+    if ($collection!==false
+        && isset($collection['images'])
+        && count($collection['images']) > 0
+    ) {
+        $uploadedImages = $collection['images'];
+    }
+    if ($collection!==false
+        && isset($collection['settings'])
+        && count($collection['settings'])>0
+    ) {
+        $imageAttributes = $collection['settings'];
+    }
+
+    ?>
+    <form action="<?php /* @escapeNotVerified */ echo $block->getUrl(
+        'mpsellervideo/mpvideo/savevideoimg',
+        ["_secure" => $secure]
+    ) ?>"
+          enctype="multipart/form-data"
+          method="post"
+          id="form-video-validate"
+          data-role="mpsellervideo_addimages">
+
+        <div class="wk_mpvideo_loader">
+            <img src="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl(
+                'Webkul_Marketplace/images/ajax-loader-big.gif'
+            ); ?>">
+        </div>
+
+        <?php /* @escapeNotVerified */ echo $block->getBlockHtml('formkey')?>
+        <?php /* @escapeNotVerified */ echo $block->getBlockHtml('seller.formkey')?>
+        <div class="wk-mp-design">
+
+            <?php $sellerProduct=$block->getProductList();?>
+            <div class="wk-mp-design">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Product') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <select name="productSku" required onchange="loadVideo(this.value)">
+                            <?php
+                            echo "<option value=''>Please Select</option>";
+                            foreach($sellerProduct as $productData){
+                                echo "<option value='".$productData->getId()."'>".$productData->getName()."(sku-".$productData->getSku().")</option>";
+                            }
+                            ?>
+                        </select>
+                    <?php } ?>
+                </fieldset>
+            </div>
+            <br/>
+            <div class="wk-mp-design">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Video Title') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <div class="field required">
+
+                            <div class="control">
+                                <input required type="text" id="title" alt="no image" name="title" accept="" title="video_title" class="input-text banner videoimg" size="26" data-counter="0" value="<?php
+                                if (isset($imageAttributes[1])) {
+                                    /* @escapeNotVerified */ echo $imageAttributes[1];
+                                } ?>"/>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </fieldset>
+            </div>
+            <div class="wk-mp-design">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Content') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <div class="field required">
+
+                            <div class="control">
+                                <input required type="text" id="content" alt="no image" name="content" accept="" title="content" class="input-text banner videoimg" size="26" data-counter="0" value="<?php
+                                if (isset($imageAttributes[2])) {
+                                    /* @escapeNotVerified */ echo $imageAttributes[2];
+                                } ?>"/>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </fieldset>
+            </div>
+
+            <div class="wk-mp-design hideVlink" style="display: none;">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Video') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <div id="video_frame"></div>
+                    <?php } ?>
+                </fieldset>
+            </div>
+            <div class="wk-mp-design hideVupload" style="display: none;">
+            <fieldset class="fieldset info wk-mp-fieldset">
+                <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Video') ?></span><span style="color:red;">*</span></legend>
+                <?php
+                if ($partner['is_seller']==1) { ?>
+                    <div class="field required">
+                        <div class="control">
+                            <input required type="file" id="videoimg_0" name="videoimg_0"  accept="video/*" title="logopic" class="input-text banner videoimg"/>
+                            <span>Supported Format FLV, MPEG, MP4 (upload max filesize :<?php echo ini_get('upload_max_filesize');?>)</span>
+                        </div>
+                    </div>
+                <?php } ?>
+            </fieldset>
+            </div>
+            <div class="wk-mp-design hideIlink" style="display: none;">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Video Thumb') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <div class="field required">
+                            <div class="control">
+                                <div id="image_frame"></div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </fieldset>
+            </div>
+            <div class="wk-mp-design hideIupload" style="display: none;">
+                <fieldset class="fieldset info wk-mp-fieldset">
+                    <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Video Thumb') ?></span><span style="color:red;">*</span></legend>
+                    <?php
+                    if ($partner['is_seller']==1) { ?>
+                        <div class="field required">
+                            <div class="control">
+                                <input required type="file" id="videoimg_1" name="videoimg_1"  accept="image/*" title="logopic" class="input-text banner videoimg"/>
+                                <span>Supported Format JPEG, PNG (upload max filesize :<?php echo ini_get('upload_max_filesize');?>)</span>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </fieldset>
+            </div>
+        </div>
+        <div class="wk-mp-page-title">
+            <button class="button wk-mp-btn" style="float:left;"
+                    title="Save Gallery"
+                    type="submit"
+                    id="save_butn">
+                <span><span><?php /* @escapeNotVerified */ echo __('Save Video') ?></span></span>
+            </button>
+            <button  onclick="deleteVideo()" style="float:right; display: none;" class="button wk-mp-btn"
+                    title="Save Gallery"
+                    type="button"
+                    id="del_butn">
+                <span><span><?php /* @escapeNotVerified */ echo __('Delete Video') ?></span></span>
+            </button>
+        </div>
+        <input type="hidden" id="video_id" name="video_id" value="0"/>
+    </form>
+    <br/><br/>
+
+    <p class="back-link">
+        <a href="javascript:;"
+           onclick="javascript: window.history.back();"
+           class="left">&laquo; <?php /* @escapeNotVerified */ echo __('Back') ?></a>
+    </p>
+<?php } ?>
+
+<?php
+$formData = [
+    'ajaxSaveUrl' => $block->getUrl(
+        "mpsellervideo/mpvideo/deleteimage",
+        ["_secure" => $secure]
+    ),
+    'ajaxUpdateUrl' => $block->getUrl(
+        "mpsellervideo/mpvideo/updateimage",
+        ["_secure" => $secure]
+    ),
+];
+$serializedFormData = $jsonHelper->jsonEncode($formData);
+?>
+
+<script type="text/x-magento-init">
+    {
+        "#form-video-validate": {
+            "validation": {},
+            "mpSellerVideo": <?php /* @noEscape */ echo $serializedFormData; ?>
+        }
+    }
+</script>
+<script>
+    function loadVideo(id) {
+        require(['jquery', 'jquery/ui'], function ($) {
+            if (id) {
+                $.ajax({
+                    method: "POST",
+                    url: "<?php  echo $block->getUrl('mpsellervideo/mpvideo/checkvideo'); ?>",
+                    data: {product: id},
+                    dataType: "json",
+                    showLoader: true //use for display loader
+                })
+                    .done(function (msg) {
+                        if (msg.success !== 0) {
+
+                            $("#video_frame").empty("");
+                            $("#image_frame").empty("");
+                            $("#title").val("");
+                            $("#content").val("");
+                            $("#title").val(msg.success.video_title);
+                            $("#content").val(msg.success.video_content);
+                            $("#video_id").val(msg.success.video_id);
+                            $("#del_butn").show();
+
+                            if (msg.success.video_name) {
+                                $("#video_frame").append("<a target='_blank' href='" + msg.success.video_url + "'>View Current File </a> <span style='cursor: pointer;' onclick='removeData(" + id + ",1," + msg.success.video_id + ")'>Remove</span>");
+                                $(".hideVlink").show();
+                                $(".hideVupload").hide();
+                            } else {
+                                $(".hideVlink").hide();
+                                $(".hideVupload").show();
+                            }
+
+                            if (msg.success.image_name) {
+                                $("#image_frame").append("<img style='width:50px;' src='" + msg.success.image_url + "'/> <span style='cursor: pointer;' onclick='removeData(" + id + ",2," + msg.success.video_id + ")'>Remove</span>");
+                                $(".hideIlink").show();
+                                $(".hideIupload").hide();
+                            } else {
+                                $(".hideIlink").hide();
+                                $(".hideIupload").show();
+                            }
+
+                        } else {
+                            // $(".hidelink").hide();
+                            $(".hideIlink").hide();
+                            $(".hideVlink").hide();
+                            $(".hideVupload").show();
+                            $(".hideIupload").show();
+                        }
+                    });
+
+            } else {
+                $("#video_frame").empty("");
+                $("#image_frame").empty("");
+                $(".hideIlink").hide();
+                $(".hideVlink").hide();
+                $(".hideVupload").show();
+                $(".hideIupload").show();
+                $("#title").val("");
+                $("#content").val("");
+            }
+        });
+    }
+
+    function deleteVideo() {
+        require(['jquery', 'jquery/ui'], function ($) {
+            var videoId = $("#video_id").val();
+            if (videoId) {
+                if (confirm('Are you sure ?')) {
+                    $.ajax({
+                        method: "POST",
+                        url: "<?php  echo $block->getUrl('mpsellervideo/mpvideo/deleteall'); ?>",
+                        data: {videoId: videoId},
+                        dataType: "json",
+                        showLoader: true //use for display loader
+                    })
+                        .done(function (msg) {
+                            if (msg != 0) {
+                                location.reload();
+                            }
+                        });
+                }
+            }
+        });
+    }
+
+    function removeData(productId, deleteType, videoId) {
+        if (productId) {
+            require(['jquery', 'jquery/ui'], function ($) {
+                if (confirm('Are you sure ?')) {
+                    $.ajax({
+                        method: "POST",
+                        url: "<?php  echo $block->getUrl('mpsellervideo/mpvideo/deletefile'); ?>",
+                        data: {product: productId, deltype: deleteType, videoId: videoId},
+                        dataType: "json",
+                        showLoader: true //use for display loader
+                    })
+                        .done(function (msg) {
+                            if (msg != 0) {
+                                if (deleteType == 1) {
+                                    $("#video_frame").empty();
+                                    $(".hideVlink").hide();
+                                    $(".hideVupload").show();
+                                } else {
+                                    $("#image_frame").empty();
+                                    $(".hideIlink").hide();
+                                    $(".hideIupload").show();
+                                }
+                            }
+                        });
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,120 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Shipping\Block\Adminhtml\Order\Packaging */ ?>
+<?php
+if($block->getShipment()):
+    $shippingMethod = $block->getShipment()->getOrder()->getShippingMethod();
+    $sizeSource = $block->getSourceSizeModel()->toOptionArray();
+    $girthEnabled = $block->isDisplayGirthValue() && $block->isGirthAllowed() ? 1 : 0;
+    $helper = $this->helper('Webkul\MarketplaceBaseShipping\Helper\Data');
+    $shipmentId = $this->getRequest()->getParam('shipment_id');
+    $mphelper = $this->helper('Webkul\Marketplace\Helper\Data');
+    ?>
+    <?php if ($shipmentId && $helper->isShippingLabelCreated($shipmentId) === false): ?>
+    <button id="create_label" class="button wk-mp-btn" title="<?php echo __('Create Shipping Label') ?>">
+            <span><span><?php echo __('Create Shipping Label...') ?></span></span>
+    </button>
+    <?php endif; ?>
+
+    <?php if ($mphelper->isSeller() && $helper->isShippingLabelCreated($shipmentId) === true): 
+        $order_id = $this->getRequest()->getParam('order_id');
+        $shipment_id = $this->getRequest()->getParam('shipment_id');
+        ?>
+        <a href="<?php echo $block->getUrl('baseshipping/shipment/printlabel', ['order_id'=>$order_id,'shipment_id'=>$shipment_id, '_secure' => $this->getRequest()->isSecure()]);?>" class="action">
+            <button class="button wk-mp-btn" title="<?php echo __('Download Shipping Label') ?>">
+                <span><span><?php echo __('Download Shipping Label') ?></span></span>
+            </button>
+        </a>
+    <?php endif; ?>
+    <form action="#" method="post" id="shipment_edit_form"> 
+        <?php $items = $block->getShipment()->getAllItems(); ?>
+        <?php foreach ($items as $item): ?>
+        <?php 
+            $_order = $block->getShipment()->getOrder();
+            $marketplaceOrder = $block->getLayout()->createBlock('Webkul\Marketplace\Block\Order\View'); 
+            $sellerOrderslist = $marketplaceOrder->getSellerOrdersList(
+                $_order->getId(), $item->getProductId(), $item->getOrderItemId()
+            );
+            if (!$sellerOrderslist->getSize()) {
+                continue;
+            }
+        ?>
+        <input type="hidden" name="shipment[items][<?= $item->getOrderItemId(); ?>]" value="<?= $item->getQty()*1 ?>"/>
+        <?php endforeach; ?>
+        <input type="hidden" name="shipment[create_shipping_label]" value="1"/>
+    <script>
+        require([
+            "jquery",
+            "prototype",
+            "Webkul_MarketplaceBaseShipping/js/order/packaging",
+            "Magento_Ui/js/modal/modal"
+        ], function(jQuery){
+
+            window.packaging = new Packaging(<?= /* @escapeNotVerified */ $block->getConfigDataJson() ?>);
+            packaging.changeContainerType($$('select[name=package_container]')[0]);
+            packaging.checkSizeAndGirthParameter(
+                $$('select[name=package_container]')[0],
+                <?= /* @escapeNotVerified */ $girthEnabled ?>
+            );
+            packaging.setConfirmPackagingCallback(function(){
+                packaging.setParamsCreateLabelRequest($('shipment_edit_form').serialize(true));
+                packaging.sendCreateLabelRequest();
+            });
+            packaging.setLabelCreatedCallback(function(response){
+                setLocation("<?php /* @escapeNotVerified */ echo $block->getUrl(
+                    'marketplace/order/view',
+                    ['id' => $block->getShipment()->getOrderId()]
+                ); ?>");
+            });
+            packaging.setCancelCallback(function() {
+                if ($('create_shipping_label')) {
+                    packaging.cleanPackages();
+                    $('create_shipping_label').checked = false;
+                    toggleCreateLabelCheckbox();
+                }
+            });
+            packaging.setItemQtyCallback(function(itemId){
+                var item = $$('[name="shipment[items]['+itemId+']"]')[0];
+                if (item && !isNaN(item.value)) {
+                    return item.value;
+                }
+            });
+            jQuery('[data-role="closeBtn"]').on('click', function() {
+                console.log('hello');
+            });
+            jQuery('#packaging_window').modal({
+                type: 'slide',
+                title: '<?= /* @escapeNotVerified */ __('Create Packages') ?>',
+                buttons: [{
+                    text: '<?= /* @escapeNotVerified */ __('Cancel') ?>',
+                    'class': 'action-secondary',
+                    click: function () {
+                        packaging.cancelPackaging();
+                        this.closeModal();
+                        }
+                    }, {
+                    text: '<?= /* @escapeNotVerified */ __('Save') ?>',
+                    'attr': {'disabled':'disabled', 'data-action':'save-packages'},
+                    'class': 'action-primary _disabled',
+                    click: function () {
+                        packaging.confirmPackaging();
+                        }
+                    }, {
+                        text: '<?= /* @escapeNotVerified */ __('Add Package') ?>',
+                        'attr': {'data-action':'add-packages'},
+                        'class': 'action-secondary',
+                        click: function () {
+                            packaging.newPackage();
+                        }
+                }]
+            });
+            jQuery(document).trigger('packaging:inited');
+            jQuery(document).data('packagingInited', true);
+        });
+    </script>
+    <?php include ($block->getTemplateFile('Webkul_MarketplaceBaseShipping::order/packaging/popup_content.phtml')) ?>
+    </form>
+<?php endif; ?>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Sunarc. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Sunarc_CMS::sunarc_sunarccms_index" title="Theme Pages" module="Sunarc_CMS"  sortOrder="20" dependsOnModule="Sunarc_CMS" action="cms/sunarccms/index" resource="Sunarc_CMS::sunarc_sunarccms_index"/>
+<!--AddMenu-->
+    </menu>
+</config>

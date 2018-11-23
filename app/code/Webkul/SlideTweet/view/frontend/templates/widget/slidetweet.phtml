@@ -1,0 +1,73 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SlideTweet
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+$data = $block->getVariables();
+$hHeight = $data['height']+28;
+$width = $data['width'];
+$maxwidth = $width/8;
+$twittrFeeds = $block->getTwitterFeeds();
+$rand = time();
+?>
+<?php if(isset($twittrFeeds->statuses)){ ?>
+<div class="twitter" style="margin: auto;width:<?php echo $width.'px';?>;
+	height:<?php echo $hHeight.'px'?>;
+	border:<?php echo $data['frameborder'].'px solid '.$data['framecolor'];?>; border-radius:<?php echo $data['frameborder'].'px'?>">
+			<div class="twitterSearchTitle" style="background-color: <?php echo $data['titleLinkcolor'];?>">
+<?php
+$string = preg_replace('%<script.*?</script>%i', '', $data['title']);
+?>
+	   <a href="<?php echo $data['titleLink'];?>" style="text-decoration:none; color:<?php echo $data['titleColor']; ?>" target="_blank"><?php echo $string;?></a>
+			</div>
+			<div class="twitterSearchContainter" id="container_<?php echo $rand; ?>" style="height: <?php echo $data['height'];?>px;background-color:<?php echo $data['backgroundcolor']; ?>;">
+					<?php foreach($twittrFeeds->statuses as $feeds){ ?>
+							<div class="wk_tweet_main">
+									<div class="wk_design">
+											<div class="wk_tweet_image">
+													<a href="http://twitter.com/<?php echo $feeds->user->screen_name; ?>" target="_blank">
+															<img style="max-width:<?php echo $maxwidth.'px'; ?>; float:left; clear:both;"src="<?php echo $feeds->user->profile_image_url; ?>" alt="<?php echo $feeds->user->screen_name; ?>"
+								 								width="<?php echo $data['iconwidth'].'px'; ?>" height="<?php echo $data['iconwidth'].'px'; ?>" />
+							 						</a>
+							 						<div class="wk_tweet_user" style="padding-left:5px;">
+														<a style="color:<?php echo $data['tweetTitleColor']; ?>" href="http://twitter.com/<?php echo $feeds->user->screen_name; ?>" target="_blank"
+															style="text-decoration:none;"><?php echo $feeds->user->screen_name; ?></a>
+													</div>
+						 					</div>
+
+											<div class="wk_tweet_time">&nbsp;<?php echo $block->getTimeInterval($feeds->created_at); ?>&nbsp;</div>
+											<div style="padding-left: 22px;">
+												       <?php
+ 												   	$latestTweet = preg_replace('/https:\/\/([a-z0-9_\.\-\+\&\!\#\~\/\,]+)/i',
+  										   			'<a href="https://$1" target="_blank">https://$1</a>', $feeds->text);
+  													$latestTweet = preg_replace('/@([a-z0-9_]+)/i',
+  													'<a class="tweet-author" href="http://twitter.com/$1" target="_blank">@$1</a>',  $latestTweet);
+  													$latestTweet = preg_replace('/#([a-z0-9_]+)/i',
+  													'<a class="tweet-author" href="http://twitter.com/$1" target="_blank">#$1</a>',  $latestTweet);
+													   echo $latestTweet; ?></div>
+					 				</div>
+				 			</div>
+				 <?php } ?>
+			 </div>
+</div>
+<?php } ?>
+<?php
+$data =[
+			'rand'=>'container_'.$rand,
+			'timeoutdelay'=>$data['timeoutdelay']
+];
+$serializedData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($data);
+?>
+<script type="text/x-magento-init">
+    {
+        "*":{
+            "slidetweet":<?php echo "$serializedData" ?>
+        }
+    }
+</script>

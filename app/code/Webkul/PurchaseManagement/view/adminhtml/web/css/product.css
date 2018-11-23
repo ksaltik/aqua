@@ -1,0 +1,23 @@
+.wk_pm_add{
+    padding: 5px;
+    margin-bottom: 15px;
+}
+.opt-req{
+    padding: 5px;
+}
+.option-header th{
+    padding: 5px!important; 
+    text-align:center!important;
+    /*vertical-align: center;*/
+}
+.border th{
+    padding: 5px!important; 
+    text-align:center!important;
+}
+.option-box{
+    margin-bottom: 20px;
+}
+.grid.suplier_one_column {
+    width: 540px;
+    padding: 5px;
+}

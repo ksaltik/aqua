@@ -1,0 +1,17 @@
+ <?php
+ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+ $ExtensionCheck = $objectManager->create('Sunarc\Distributed\Helper\Data')->getConfigModuleEnabled();
+       if ($ExtensionCheck) {
+ ?>                  
+       
+<div class="field distributor">
+    <label for="distributor_request" class="label"><span><?php /* @escapeNotVerified */
+            echo __('Do You Want To Become A Distributor?') ?></span></label>
+    <div class="control">
+        <input type="checkbox" name="distributor_request" id="distributor_request" title="<?php /* @escapeNotVerified */
+        echo __('Distributor') ?>" class="input-text" value="1">
+    </div>
+</div>
+<?php
+}
+?>

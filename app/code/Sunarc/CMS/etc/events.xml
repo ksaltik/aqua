@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="admin_system_config_changed_section_general">
+		<observer name="custom_admin_system_config_changed_section_general" instance="Sunarc\CMS\Observer\ConfigObserver"/>
+	</event>
+	<event name="assign_theme_to_stores_after">
+		<observer name="check_theme_is_assigned" instance="Sunarc\CMS\Observer\CheckThemeIsAssignedObserver" />
+	</event>
+</config>

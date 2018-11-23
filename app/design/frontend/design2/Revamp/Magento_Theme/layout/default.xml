@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright � 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+            </arguments>
+        </referenceBlock>
+		<!--Changes by Pankaj on 1/12/2017-->
+		<referenceBlock name="wish-list-link" remove="true" />          <!--Removed WishList Link from top header as per design-->
+		<referenceBlock name="advanced-search-link" remove="true" />    <!-- Removed Advanced search from top header as per design-->
+		<referenceBlock name="report.bugs" remove="true" />    <!-- Removed Reports bug from footer as per design-->
+		<referenceBlock name="copyright" remove="true" />    <!-- Removed Copyright from footer as per design-->
+		<referenceBlock name="form.subscribe" remove="true" />    <!-- Removed Subscribe from footer as per design-->
+		<move element="navigation.sections" destination="header-wrapper"/>		<!-- Moved menu next to logo as per design-->
+		<move element="minicart" destination="header-wrapper" after="navigation.sections"/> <!-- Moved minicart in top header-->
+		<move element="top.links" destination="header-wrapper"/>
+		<referenceBlock name="panel.wrapper" remove="true" />
+
+				<!--Changes by Pankaj on 07/12/2017-->
+		<referenceBlock name="product.info.sku" remove="true" />    <!-- Removed Product SKU from product page as per design-->
+		<referenceBlock name="product.info.review" remove="true" />    <!-- Removed Product Review from product page as per design-->
+		<referenceBlock name="product.info.extrahint" remove="true" />    <!-- Removed Add to compare, wishlist from product page as per design-->
+		<referenceBlock name="product.info.price" remove="true" />    <!-- Removed Add to compare, wishlist from product page as per design-->
+		<referenceBlock name="product.info.stock.sku" remove="true" />    <!-- Removed Add to compare, wishlist from product page as per design-->
+		<move element="product.info.overview" after="product.price.tier" destination="product.info.main"/> <!-- Moved product description in above QTY-->
+		<referenceBlock name="product.info.details" remove="true" />
+
+
+        <!--Changes by Pushpendra on 6/12/2017-->
+        <referenceBlock name="footer_links" remove="true" /> <!-- Removed footer links from footer as per design-->
+        <referenceBlock name="header" remove="true"/><!-- Remove welcome text from header-->
+
+
+
+    </body>
+</page>

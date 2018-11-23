@@ -1,0 +1,26 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpUPSShipping
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ ?>
+<?php
+    $_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+    $isPartner = $_helper->isSeller();
+    $isSellerGroup = $_helper->isSellerGroupModuleInstalled();
+    $magentoCurrentUrl = $block->getCurrentUrl();
+?>
+<?php if ($isPartner): ?>
+<?php if (($isSellerGroup && $_helper->isAllowedAction('mpfedex/shipping/view') || !$isSellerGroup)) : ?>
+    <li id="wk-mp-menu-mpfedex" class="level-2 <?php echo strpos($magentoCurrentUrl, 'mpfedex/shipping/view')? "current active":"";?>">
+        <a href="<?php echo $block->getUrl('mpfedex/shipping/view', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+            <?php /* @escapeNotVerified */ echo __('Fedex Shipping') ?>
+        </a>
+    </li>
+<?php endif; ?>
+<?php endif; ?>

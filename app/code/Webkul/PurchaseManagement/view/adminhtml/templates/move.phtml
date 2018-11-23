@@ -1,0 +1,202 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<div id="sales_order_view_tabs_order_info_content">
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-content">
+        <div class="box-left admin__page-section-item order-information">
+            <!--Order Information-->
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Incoming Information</span>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <table cellspacing="0" class="form-list admin__table-secondary order-information-table">
+                        <tbody>
+                            <tr>
+                                <td class="label"><label>Source</label></td>
+                                <td class="value"><strong><?php echo $block->getProductData()->getSource(); ?></strong></td>
+                            </tr>
+                            <tr>
+                                    <td class="label"><label>Reference</label></td>
+                                    <td class="value">
+<?php                                   $move_id = $block->getProductData()->getEntityId();
+                                        $picking_id = $block->getProductData()->getPickingId();
+                                        $picking = $block->getPickingObj()->load($picking_id);   ?>
+                                        <a target="_blank" href="<?php echo $this->getUrl('purchasemanagement/picking/edit',array("id"=>$picking_id));?>"><strong><?php echo $picking->getIncrementId(); ?></strong></a>
+                                    </td>
+                                </tr>
+                            <tr>
+                                <td class="label"><label>Scheduled Date</label></td>
+                                <td class="value">
+                                   <?php  $date = date_create($block->getProductData()->getScheduleDate()); 
+                                       $schedule_date = date_format($date, "g:ia \o\\n l jS F Y")
+                                   ?>
+                                   <span class="value"><?php echo $schedule_date;?></span>
+                                    <input type="text" style="width: 120px;" class="input-text" value="" id="schedule_date" name="schedule_date"/>
+
+                                    <button  data-moveid="<?php echo $move_id;?>" class="update_date scalable save" type="button" title="Update" id="update_schedule_date"><span><span><span>Update</span></span></span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label>Order Status</label></td>
+                                <td class="value"><strong><span>
+<?php                               $status_id = $block->getProductData()->getStatus();
+                                    if($status_id == 0)
+                                        echo __("New");
+                                    if($status_id == 1)
+                                        echo __("Ready To Receive");
+                                    if($status_id == 2)
+                                        echo __("Received"); 
+                                    if($status_id == 3)
+                                        echo __("Canceled");        ?> 
+                                </span></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box-right admin__page-section-item order-account-information">
+            <!--Account Information-->
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Product Information</span>
+                    <div class="tools"></div>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list admin__table-secondary order-account-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label>Product</label></td>
+                                    <td class="value">
+                                        <span><strong><?php echo $block->getProductData()->getDescription()."(". $block->getProductData()->getSku() .")"; ?></strong></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label>Ordered Quantity</label></td>
+
+                                    <td class="value">
+                                        <span><strong><?php echo $block->getProductData()->getQuantity();?></strong></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label>Weight</label></td>
+
+                                    <td class="value">
+                                        <span><strong><?php echo $block->getProductData()->getWeight();?></strong></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <section class="admin__page-section">
+    <div class="admin__page-section-content">
+        <div class="box-left admin__page-section-item order-comments-history">
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="title">Comments History</span>
+                </div>
+                <fieldset>
+                     <div id="order_history_block">
+                        <div class="order-history-form" id="history_form">
+                            <div>Add Order Comments</div>
+                            <div class="field-row admin__field">
+                                <label class="normal admin__field-label">Status</label><br>
+                                <div class="admin__field-control">
+                                    <select class="select admin__control-select" name="status" id="move_status">
+    <?php                               if($status_id == 0)
+                                            echo "<option value='0'>".__("New")."</option>";
+                                        if($status_id == 1)
+                                            echo "<option value='1'>".__("Ready To Receive")."</option>";
+                                        if($status_id == 2)
+                                            echo "<option value='2'>".__("Received")."</option>";
+                                        if($status_id == 3)
+                                            echo "<option value='3'>".__("Canceled")."</option>";       ?>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="field-row admin__field">
+                                <label class="normal admin__field-label">Comment</label>
+                                <textarea id="main_comment" style="height:6em; width:99%;" cols="5" rows="3" name="comment"></textarea>
+                            </div>
+                            <div class="f-left admin__field">
+                                <div class="order-history-comments-options">
+                                    <input type="checkbox" value="1" id="comment_notify" name="is_customer_notified">
+                                    <label class="normal" for="comment_notify"> Notify Supplier by Email</label>
+                                </div>
+                                <div class="f-right order-history-comments-actions">
+                                    <button id="submit_comment" data-moveid="<?php echo $this->getRequest()->getParam("id")?>" class="scalable save" type="button" title="Submit Comment"><span><span><span>Submit Comment</span></span></span></button>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="divider"></div>
+                        <ul class="note-list">
+<?php                       $move_id = $this->getRequest()->getParam("id");
+                            $collection = $block->getCommentObj($move_id);
+                            $collection->setOrder('entity_id','DESC');
+                            foreach($collection as $one_comment) {        ?>
+                            <li>
+                                <strong>
+<?php                               $date = date_create($one_comment->getCreatedAt());echo date_format($date, "g:ia \o\\n l jS F Y"); ?>
+                                </strong>
+                                <span class="separator">|</span>
+                                <strong>
+<?php                               $status_id = $one_comment->getStatus();
+                                    if($status_id == 0)
+                                        echo __("New");
+                                    if($status_id == 1)
+                                        echo __("Ready To Receive");
+                                    if($status_id == 2)
+                                        echo __("Received");
+                                    if($status_id == 3)
+                                        echo __("Canceled"); ?>
+                                </strong><br>
+                                <small>Supplier
+<?php                               if($one_comment->getIsSupplierNotified() == 1)  {   ?>
+                                        <strong class="subdue">Notified</strong>
+<?php                               }
+                                    else   {   ?>
+                                        <strong class="subdue">Not Notified</strong>
+<?php                               }   ?>
+                                </small><br>
+<?php                           echo $one_comment->getComment();   ?>
+                            </li>
+<?php                       }           ?>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    </section>
+</div>
+
+<?php
+$formData = [
+    'comment_url' =>  $block->getUrl("purchasemanagement/history/save", ["_secure" => $this->getRequest()->isSecure()])
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "move": <?php  echo $serializedFormData; ?>
+        }
+    }
+</script>

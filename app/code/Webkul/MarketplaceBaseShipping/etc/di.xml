@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MarketplaceBaseShipping
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2018 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Webkul\MarketplaceBaseShipping\Api\Data\ShippingSettingInterface" type="Webkul\MarketplaceBaseShipping\Model\ShippingSetting" />
+    <preference for="Webkul\MarketplaceBaseShipping\Api\Data\ShippingSettingSearchResultInterface"
+                type="Magento\Framework\Api\SearchResults" />
+    <preference for="Webkul\MarketplaceBaseShipping\Api\ShippingSettingRepositoryInterface" type="Webkul\MarketplaceBaseShipping\Model\ShippingSettingRepository" />
+
+    <type name="Webkul\Marketplace\Controller\Order\View">
+      <plugin name="Webkul_MarketplaceBaseShipping::view_order" type="Webkul\MarketplaceBaseShipping\Plugin\Marketplace\Controller\Order\View" sortOrder="1" />
+    </type>
+    
+</config>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/*////////////////////////////////////////////////////////////////////////////////
+ \\\\\\\\\\\\\\\\\\\\\\\\\  FME Productvideos Module  \\\\\\\\\\\\\\\\\\\\\\\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ \\\\\\\\\\\\\\\\\\\\\\\\\ NOTICE OF LICENSE\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ ///////                                                                   ///////
+ \\\\\\\ This source file is subject to the Open Software License (OSL 3.0)\\\\\\\
+ ///////   that is bundled with this package in the file LICENSE.txt.      ///////
+ \\\\\\\   It is also available through the world-wide-web at this URL:    \\\\\\\
+ ///////          http://opensource.org/licenses/osl-3.0.php               ///////
+ \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ ///////                      * @category   FME                            ///////
+ \\\\\\\                      * @package    FME_Productvideos              \\\\\\\
+ ///////    * @author    FME Extensions <support@fmeextensions.com>   ///////
+ \\\\\\\                                                                   \\\\\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ \\* @copyright  Copyright 2015 © fmeextensions.com All right reserved\\\
+ /////////////////////////////////////////////////////////////////////////////////
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Config/etc/system_file.xsd">
+    <system>
+        <tab id="fmeextensions" translate="label" sortOrder="2001">
+            <label>FME Extesnions</label>
+        </tab>
+      <section id="productvideos" translate="label" sortOrder="124" showInDefault="1" showInWebsite="1" showInStore="1">
+         <label>Product Videos</label>
+         <tab>fmeextensions</tab>
+         <resource>FME_Productvideos::fmeextensions_productvideos_config</resource>
+        <group id="general" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+         <label>General Settings</label>
+            <field id="enable_module" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Enable/Disable Product Videos</label>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+            </field> 
+             <field id="title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Title</label>
+            </field>
+            <field id="bg_color" translate="label" type="text" sortOrder="106" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Thumb Background Color if Keep Aspect Ratio (YES) ?</label>
+                    <frontend_model>FME\Productvideos\Block\Color</frontend_model> <!-- Our block for attaching color picker to text box -->
+            </field>
+            <field id="frame_thumb" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Keep Frame of Thumb ?</label>
+                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+             <field id="aspect_ration" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Keep Aspect Ratio of Thumb ?</label>
+                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+             </field>
+            <field id="thumb_width" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Thumb Width</label>
+            </field>
+            <field id="thumb_height" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Thumb Height</label>
+            </field>
+        </group>
+   </section>
+</system>
+</config>

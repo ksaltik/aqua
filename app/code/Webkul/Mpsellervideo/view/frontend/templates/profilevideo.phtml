@@ -1,0 +1,60 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpsellervideo
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+/*get Images Collection, seller id, seller settings of a seller on Seller Profile page for video*/
+
+$partner = $block->getImagesCollection();
+
+$mediaUrl = $block->getMediaUrl();
+$userid = $partner['seller_id'];
+
+if (isset($partner['settings'][0]) && $partner['settings'][0]!=''){
+    $link = $partner['settings'][0];
+    $video_id = explode("?v=", $link); // For videos like http://www.youtube.com/watch?v=...
+    if (empty($video_id[1]))
+        $video_id = explode("/v/", $link); // For videos like http://www.youtube.com/watch/v/..
+
+    $video_id = explode("&", $video_id[1]); // Deleting any other params
+    $video_id = $video_id[0];
+    ?>
+    <script type="text/javascript">
+        var embedCode = '<object data="http://www.youtube.com/v/<?php echo $video_id; ?>" type="application/x-shockwave-flash"><param name="src" value="http://www.youtube.com/v/<?php echo $video_id; ?>"><param name="allowfullscreen" value="true"></object>'
+    </script>
+    <div id="videocontainer" style="padding-left:40px;">
+        <img src="http://i4.ytimg.com/vi/<?php echo $video_id; ?>/default.jpg" onclick="document.getElementById('videocontainer').innerHTML = embedCode;"/>
+    </div>
+    <?php
+
+}
+?>
+<div id="images-slide">
+        <ul>
+        <?php
+        foreach ($partner['images'] as $_image) {
+            if(is_array($_image) && isset($_image['image'])){
+                $tempImage = $_image['image'];
+            }else{
+                $tempImage = $_image;
+            }
+
+            $imageCheck = @getimagesize($mediaUrl.'avatar/'.$userid.'/'.$tempImage);
+            if (sizeof($imageCheck)>0 && $imageCheck!==false) { ?>
+                <li style="padding-top:20px;">
+                        <img width="500" src="<?php /* @escapeNotVerified */ echo $mediaUrl.'avatar/'.$userid.'/'.$tempImage; ?>">
+                </li>
+                <?php
+            }
+        }
+        ?>
+</ul>
+</div>
+
+

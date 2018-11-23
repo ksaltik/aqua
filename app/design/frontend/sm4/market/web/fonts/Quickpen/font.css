@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Quickpen';
+  src: url('Quickpen.eot');
+  src: url('Quickpen.woff2') format('woff2'),
+       url('Quickpen.woff') format('woff'),
+       url('Quickpen.ttf') format('truetype'),
+       url('Quickpen.svg#Quickpen') format('svg'),
+       url('Quickpen.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+

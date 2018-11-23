@@ -1,0 +1,77 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_Marketplace
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$sellerlist_top_label 		= 	$block->escapeHtml($helper->getSellerlisttopLabel());
+$sellerlist_bottom_label 	= 	($helper->getSellerlistbottomLabel());
+if (!isset($paramData['shop'])) {
+	$paramData['shop'] = '';
+}
+?>
+<div class="home-collection">
+	<div class="collections-wrap">
+	<div class="title-home-page"><span>Merchants</span></div>
+		<?php
+		if(count($block->getSellerCollection())==0){ ?>
+			<div class="wk-emptymsg">
+				<?php echo __('No Merchant Available') ?>
+			</div>
+			<?php
+		} else{?>
+			<ul class="collections">
+				<?php
+				$sellerCollection=$block->getSellerCollection();
+				$sellerCollection->clear();
+				$sellerCollection->setPageSize(false);
+				$sellerCollection->getSelect()->limit(5);
+				foreach($sellerCollection as $seller_coll){
+					$seller_id = $seller_coll->getSellerId();
+					$seller_product_count = 0;
+					$profileurl = $seller_coll->getShopUrl();
+					$shoptitle = '';
+					$logo="noimage.png";
+					$seller_product_count = $helper->getSellerProCount($seller_id);
+					$shoptitle = $seller_coll->getShopTitle();
+					$logo=$seller_coll->getLogoPic()==''?"noimage.png":$seller_coll->getLogoPic();
+					if(!$shoptitle){
+						$shoptitle = $profileurl;
+					}
+					$logo=$helper->getMediaUrl().'avatar/'.$logo;
+					?>
+			    	<li class="collect collect">
+									<a href="<?php echo $helper->getRewriteUrl('marketplace/seller/profile/shop/'.$profileurl);?>" title="<?php echo __("View Seller's Shop") ?>">
+									<div><img src="<?php echo $logo ?>"></div>
+										<span><strong><?php echo $block->escapeHtml($shoptitle) ?></strong></span>
+									</a>
+					</li>
+			    	<?php
+			    }?>
+		    </ul>
+		    <?php
+		}?>
+	</div>
+	<?php
+	if(count($block->getSellerCollection())>=5)
+		{ ?>
+			<a href="<?php echo $helper->getRewriteUrl('merchants');?>">
+									<button class="button" title="<?php echo __("View Seller's Collection") ?>">
+										<span>
+											<span>
+												<?php echo __('View All'); ?>
+											</span>
+										</span>
+									</button>
+				</a>
+		<?php }
+	 ?>
+</div>

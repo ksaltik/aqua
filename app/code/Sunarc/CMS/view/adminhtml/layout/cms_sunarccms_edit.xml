@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+     <update handle="editor"/>
+    <body>
+	   <referenceContainer name="content">
+            <block class="Sunarc\CMS\Block\Adminhtml\Sunarccms\Edit" name="cms_sunarccms_edit"/>
+        </referenceContainer>
+		 <referenceContainer name="left">
+            <block class="Sunarc\CMS\Block\Adminhtml\Sunarccms\Edit\Tabs" name="cms_sunarccms_edit_tabs">
+				<block class="Sunarc\CMS\Block\Adminhtml\Sunarccms\Edit\Tab\ThemePages" name="cms_sunarccms_edit_tab_themepages"/>
+				 <action method="addTab">
+                    <argument name="name" xsi:type="string">themepages_section</argument>
+                    <argument name="block" xsi:type="string">cms_sunarccms_edit_tab_themepages</argument>
+                </action>
+				<!--CedAddTab-->
+			</block>
+        </referenceContainer>
+    </body>
+</page>

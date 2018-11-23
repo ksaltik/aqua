@@ -1,0 +1,48 @@
+@media (min-width: 320px) and (max-width: 750px) {
+
+
+}
+
+@media (min-width: 470px) and (max-width: 500px) {
+    
+
+
+}
+
+@media (min-width: 500px) and (max-width: 760px) {
+    
+
+
+}
+
+@media (min-width: 760px) and (max-width: 900px) {
+
+
+}
+
+@media (min-width: 900px) and (max-width: 5000px) {
+  
+
+}
+
+
+@media (min-width: 320px) and (max-width: 500px) {
+    
+
+}
+
+@media only screen and (max-width:768px),
+only screen and (max-width:1024px)  {
+
+    video {
+        height:auto;
+    }
+}
+@media only screen and (max-width:480px) and (orientation:portrait),
+only screen and (min-width:320px) and (max-width:480px),
+only screen and (max-width:515px) and (orientation:landscape) {
+
+    video {
+        height:auto;
+    }
+}

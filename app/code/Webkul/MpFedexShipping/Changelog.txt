@@ -1,0 +1,24 @@
+Legend
+
++ Features
+
+-------------------------------- Version 2.1.0 --------------------------------------
+	+ Compatible with Marketplace Base Shipping Module
+
+-------------------------------- Version 2.0.2 --------------------------------------
+	+ Compatible with Magento 2.2.* version.
+
+-------------------------------- Version 2.0.1 --------------------------------------
+
+	+ Compatible with Magento 2.1.* version.
+    	+ Removed Dependency on Magento Default Fedex Shipping Module.
+
+-------------------------------- Version 2.0.0 --------------------------------------
+	+ Admin can enable or disable Marketplace Fedex Shipping method.
+	+ Admin can set the Marketplace Fedex shipping method name that will be shown from front side.
+	+ Admin can set packages request type.
+        + Admin can allow sellers to save his/her Fedex Credentials.
+	+ Fedex shipping rate will be calculated from seller's address.
+	+ Seller can add Invoice & Packing slip address, VAT, TAX information.
+	+ Ability to download Invoice and Shipping Slip easily.
+        + Seller can download Fedex Shipment Label in PDF format.

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <purchasemanagement>
+            <general_options>
+                <prefix>PO</prefix>
+                <padding>9</padding>
+            </general_options>
+            <email>
+                <quotation_email_subject>Quotation Request</quotation_email_subject>
+                <quotation_email_content>Quotation Email Content</quotation_email_content>
+                <quotation_email_footer>If you have any questions about above quotation details then feel free to contact us</quotation_email_footer>
+                <purchase_email_subject>Purchase Request</purchase_email_subject>
+                <purchase_email_content>This is an order for the items listed below, could you confirm receipt of the order and scheduled shipment dates for the items</purchase_email_content>
+                <purchase_email_footer>If you have any questions about above purchase order details then feel free to contact us</purchase_email_footer>
+                <quotation_template>purchasemanagement_email_quotation_template</quotation_template>
+                <order_template>purchasemanagement_email_order_template</order_template>
+            </email>
+        </purchasemanagement>
+    </default>
+</config>

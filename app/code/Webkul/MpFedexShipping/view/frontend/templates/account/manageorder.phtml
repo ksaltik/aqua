@@ -1,0 +1,36 @@
+<?php 
+/**
+* Webkul Software
+*
+* @category Webkul
+* @package Webkul_MpFedexShipping
+* @author Webkul
+* @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+* @license https://store.webkul.com/license.html
+*/ 
+	$order = $block->getOrder();
+	$helper = $this->helper('Webkul\Marketplace\Helper\Orders');
+	$orderInfo = $helper->getOrderinfo($order->getId());
+	$shippingMethod = $order->getShippingMethod();
+	$multishipping = [];
+	if (strrpos($shippingMethod, 'mpmultishipping') !== false) {
+		$multishipping = explode('_', $orderInfo->getMultishipMethod());
+	}
+?>
+<?php if (strrpos($shippingMethod, 'mpfedex') !== false || (isset($multishipping[0]) && $multishipping[0] == 'mpfedex')): ?>
+	<tr>
+		<td>
+			<div class="field choice admin__field admin__field-option field-create">
+				<input id="create_shipping_label"
+						class="admin__control-checkbox"
+						name="shipment[create_shipping_label]"
+						value="1"
+						type="checkbox"
+						onclick="toggleCreateLabelCheckbox();"/>
+				<label class="admin__field-label"
+						for="create_shipping_label">
+					<span><?= /* @escapeNotVerified */ __('Create Shipping Label') ?></span></label>
+			</div>
+		</td>
+	</tr>
+<?php endif; ?>

@@ -1,0 +1,130 @@
+ <?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+ <?php  $supplier_collection = $block->getSuppliers();
+        $supplier_list = "";
+        foreach($supplier_collection as $value)
+            $supplier_list .= "<option value='".$value->getId()."'>".$value->getName().'('.$value->getEmail().')'."</option>";
+
+        
+        $collection = $block->getOptions();
+        $count=1; //$collection=array();
+?>
+<div class="entry-edit custom-options supplier_options">
+    <div class="entry-edit-head">
+        <h4><?php //echo $block->__("Suppliers") ?></h4>
+
+        <div class="right">
+            <button class="wk_pm_add" type="button" title="Add New Option" id="add_new_supplier"><span><span><span>Add New Supplier</span></span></span></button>
+        </div>
+    </div>
+    <div id="product_options_container" class="box">
+        <div id="product_options_container_top"></div>
+<?php       $count = 1;
+            foreach($collection as $col) {   ?>
+            <div class="option-box">
+                <table cellspacing="0" cellpadding="0" class="option-header data-grid data-grid-draggable">
+                    <thead>
+                        <tr>
+                            <th class="opt-req ">Choose Supplier<span class="required">*</span></th>
+                           
+                            <th class="opt-req">Minimal Quantity  <span class="required">*</span></th>
+                            
+                            <th class="opt-req">Lead Time(In Days) <span class="required">*</span></th>
+                            
+                            <th class="opt-req">Priority <span class="required">*</span></th>
+                            
+                            <th class="opt-order"> Status</th>
+                            <th class="a-right"><button data-todelete-supplier="<?php echo $col->getEntityId(); ?>"  class="delete-option" type="button" title="Delete Option"><span><span><span>Delete Option</span></span></span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select class="select-supplier-option-type required-option-select required-entry admin__control-select" data-form-part='product_form' name="supplierarr[supplier][<?php echo $count; ?>]">
+                                    <option value="">-- Please select --</option>
+<?php                               foreach($supplier_collection as $value){        ?>
+                                        <option value="<?php echo $value->getId(); ?>"  <?php if($value->getId() == $col->getSupplierId()) echo "selected='selected'"; ?>><?php echo $value->getName().'('.$value->getEmail().')'; ?></option>
+<?php                               }   ?>
+                                </select>
+                            </td>
+                            
+                            <td>
+                                <input class=" required-entry validate-zero-or-greater input-text required-entry admin__control-text" data-form-part='product_form' name="supplierarr[minimal][<?php echo $count; ?>]" value="<?php echo $col->getMinimalQty();?>"></input>
+                            </td>
+                            
+                            <td>
+                                <input class=" required-entry validate-zero-or-greater input-text required-entry admin__control-text" name="supplierarr[lead_time][<?php echo $count; ?>]" data-form-part='product_form' value="<?php echo $col->getLeadTime();?>"></input>
+                            </td>
+                            
+                            <td>
+                                <input class=" required-entry validate-zero-or-greater input-text required-entry admin__control-text" name="supplierarr[sequence][<?php echo $count; ?>]" data-form-part='product_form' value="<?php echo $col->getSequence();?>"></input>
+                            </td>
+                           
+                            <td>
+                                <select class="select-supplier-status-type required-option-select admin__control-select" data-form-part='product_form' name="supplierarr[status][<?php echo $count; ?>]">
+                                    <option value="0" <?php if($value->getStatus() == 0) echo "selected='selected'"; ?>>Disabled</option>
+                                    <option value="1" <?php if($col->getStatus() == 1) echo "selected='selected'"; ?>>Enabled</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="grid suplier_one_column">
+                    <table class="border data-grid data-grid-draggable">
+                        <thead>
+                            <tr class="headings">                                
+                                <th>Quantity <span class="required">*</span></th>
+                                <th>Cost Price <span class="required">*</span></th>
+                                <th class="last">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody class="price_qty_container">
+<?php                       $optionsvalue = $block->getOptionsvalue($col->getEntityId());
+                            $internal_count = 1;
+                            foreach($optionsvalue as $value) {        ?>
+                                <tr>
+                                    <td><input value="<?php echo $value->getQuantity(); ?>" data-form-part='product_form' type="text" name="supplier[<?php echo $count; ?>][qty][<?php echo $internal_count; ?>]" class="input-text required-entry validate-digits admin__control-text"></td>
+                                    <td><input value="<?php echo $value->getBasePrice(); ?>" data-form-part='product_form' type="text" name="supplier[<?php echo $count; ?>][price][<?php echo $internal_count; ?>]" class="input-text required-entry validate-zero-or-greater admin__control-text"></td>
+                                    <td class="last"><span title="Delete row"><button class="delete delete-select-row icon-btn" type="button"  data-todelete="<?php echo $value->getEntityId(); ?>" title="Delete Row"><span><span><span>Delete Row</span></span></span></button></span></td>
+                                </tr>
+<?php                       $internal_count++;
+                            }       ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="a-right" colspan="100"><button data-thiscount="<?php echo $internal_count; ?>"  class="add" type="button" data-count="<?php echo $count; ?>" title="Add New Row"><span><span><span>Add New Row</span></span></span></button></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+<?php           $count++;
+            }      ?>
+
+    </div>
+</div>
+
+<?php
+$formData = [
+    'count' =>$count,
+    'supplier_list' =>$supplier_list
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "product_view": <?php  echo $serializedFormData; ?>
+        }
+    }
+</script>
+

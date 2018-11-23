@@ -1,0 +1,21 @@
+{
+    "name": "webkul/marketplace-rma-system",
+    "description": "Marketplace RMA System For Magento2",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "webkul/module-marketplace": "2.1.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.1",
+    "license": [
+        "proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Webkul\\MpRmaSystem\\": ""
+        }
+    }
+}

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpsellervideo
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+
+// @codingStandardsIgnoreFile
+// updated file to add notification for seller.
+$_helper = $this->helper('Webkul\Marketplace\Helper\Data');
+$isPartner = $_helper->isSeller();
+$magentoCurrentUrl = $block->getCurrentUrl();?>
+
+<nav class="wk-mp-menu wk-mp-main">
+    <ul id="wk-mp-nav">
+        <?php
+        if($isPartner){ ?>
+            <li class="nav item notification-link level-0 <?php echo strpos($magentoCurrentUrl,'mpsellervideo/mpvideo')? "current":"";?>">
+                <a href="<?php echo $block->getUrl('mpsellervideo/mpvideo', ['_secure' => $this->getRequest()->isSecure()]); ?>">
+                    <?php /* @escapeNotVerified */ echo __('Manage video') ?>
+                </a>
+            </li>
+        <?php } ?>
+    </ul>
+</nav>

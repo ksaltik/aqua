@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Sunarc_AdvPermission
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * Sunarc_AdvPermission
+ *
+ * @category Sunarc_AdvPermission
+ * @package Sunarc_AdvPermission
+ * @copyright Copyright (c) 2014 Zowta LLC (http://www.sunarctechnologies.com)
+ * @license http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @author Sunarc_AdvPermission Team support@sunarctechnologies.com
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_grid_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Order\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_invoice_grid_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Order\Invoice\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_shipment_grid_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Order\Shipment\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_creditmemo_grid_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Order\Creditmemo\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="cms_block_listing_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Block\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="customer_listing_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="cms_page_listing_data_source" xsi:type="string">Sunarc\AdvPermission\Model\ResourceModel\Page\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Backend\Block\Store\Switcher" type="Sunarc\AdvPermission\Block\Store\Switcher"/>
+    <preference for="Magento\Backend\Block\Dashboard\Sales" type="Sunarc\AdvPermission\Block\Dashboard\Sales" />
+<!--    <preference for="Magento\Catalog\Model\ResourceModel\Product\Collection"
+                type="Sunarc\AdvPermission\Model\Rewrite\Catalog\ResourceModel\Product\Collection" />-->
+
+</config>

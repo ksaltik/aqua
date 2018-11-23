@@ -1,0 +1,28 @@
+{
+  "name": "extensionhawk/stamps",
+  "description": "N/A",
+  "require": {
+    "php": "~5.5.2|~5.6.0|~7.0.0"
+  },
+  "type": "magento2-module",
+  "version": "1.0.10",
+  "license": [
+    "GPL-3.0"
+  ],
+  "authors": [
+    {
+      "name": "ExtensionHawk",
+      "email": "info@extensionhawk.com",
+      "homepage": "https://www.xadapter.com/shop",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "ExtensionHawk\\Stamps\\": ""
+    }
+  }
+}

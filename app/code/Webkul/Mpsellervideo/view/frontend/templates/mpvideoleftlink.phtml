@@ -1,0 +1,40 @@
+<?php
+/**
+ * Webkul Software
+ *
+ * @category  Webkul
+ * @package   Webkul_Mpsellervideo
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+$magentoCurrentUrl = $block->getCurrentUrl();
+$helper = $this->helper('Webkul\Marketplace\Helper\Data');
+/*Get current URL*/
+$isPartner= $helper->isSeller();
+$secure = $block->getIsSecure();
+
+$isSellerGroup = $helper->isSellerGroupModuleInstalled();
+/*Check if current customer is a seller or not*/
+if ($isPartner) : ?>
+    <!-- if is a seller then show left link -->
+    <?php if(($isSellerGroup && $helper->isAllowedAction('mpsellervideo/mpvideo/index')) || !$isSellerGroup) : ?>
+        <li class="nav item
+            <?php /* @escapeNotVerified */ echo strpos($magentoCurrentUrl, 'mpsellervideo') ? "current":"";?>">
+            <?php
+            if (strpos($magentoCurrentUrl, 'mpsellervideo')!==false) { ?>
+                <strong><?php /* @escapeNotVerified */ echo __('Manage Video') ?></strong>
+            <?php
+            } else {
+            ?>
+                <a href="<?php /* @escapeNotVerified */ echo $block->getUrl(
+                    'mpsellervideo/mpvideo/index', ['_secure' => $secure]
+                ); ?>">
+                    <?php /* @escapeNotVerified */ echo __('Manage Video') ?>
+                </a>
+            <?php
+            }
+            ?>
+        </li>
+    <?php endif; ?>
+<?php endif; ?>

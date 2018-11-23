@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="content">
+			<!-- <block class="Webkul\PurchaseManagement\Block\Adminhtml\Quotation\Edit\Tab\Suppliergrid" name="purchasemanagement_quotation_edit_tab_suppliergrid" /> -->
+			<block class="Magento\Backend\Block\Template" name="createquotation" template="Webkul_PurchaseManagement::createquotation.phtml"/>
+		</referenceContainer>
+	</body>
+</page>

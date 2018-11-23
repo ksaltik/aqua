@@ -1,0 +1,5 @@
+<?php $attributeCode = 'tab_two'; ?>
+<?php echo $blockIdentifier = $block->getProduct()->getData($attributeCode); ?>
+<?php if($blockIdentifier): ?>
+    <?php //echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($blockIdentifier)->toHtml(); ?>
+<?php endif; ?>

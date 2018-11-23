@@ -1,0 +1,34 @@
+"Fix Rate Shipping details saved successfully.","Fix Rate Shipping details saved successfully."
+"Manage Fedex Configuration","Manage Fedex Configuration"
+"result' 'error","result' 'error"
+Key,Key
+Password,Password
+"Residential Delivery","Residential Delivery"
+"Account Id","Account Id"
+"Meter Number","Meter Number"
+"Create Shipping Label","Create Shipping Label"
+"* Required Fields","* Required Fields"
+"Fedex Configuration","Fedex Configuration"
+Save,Save
+"Account ID","Account ID"
+"Please make sure to use only digits here. No dashes are allowed.","Please make sure to use only digits here. No dashes are allowed."
+"Fedex Shipping","Fedex Shipping"
+"Manage Fedex Shipping","Manage Fedex Shipping"
+"Field ","Field "
+" is required."," is required."
+"Webkul Marketplace Fedex Shipping","Webkul Marketplace Fedex Shipping"
+"Enabled for Checkout","Enabled for Checkout"
+Title,Title
+"Sandbox Mode","Sandbox Mode"
+"Web-Services URL (Production)","Web-Services URL (Production)"
+"Web-Services URL (Sandbox)","Web-Services URL (Sandbox)"
+Packaging,Packaging
+Dropoff,Dropoff
+"Weight Unit","Weight Unit"
+"Allowed Methods","Allowed Methods"
+"Hub ID","Hub ID"
+"The field is applicable if the Smart Post method is selected.","The field is applicable if the Smart Post method is selected."
+"Allow Sellers to Save Fedex Details","Allow Sellers to Save Fedex Details"
+"Displayed Error Message","Displayed Error Message"
+"Show Method if Not Applicable","Show Method if Not Applicable"
+Debug,Debug

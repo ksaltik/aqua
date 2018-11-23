@@ -1,0 +1,387 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php 
+$helper = $this->helper('Webkul\PurchaseManagement\Helper\Data');
+$currencyCode =  $this->getQuotationData()->getGlobalCurrencyCode();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$user = $objectManager->create('Magento\User\Model\User');
+$user->load($this->getQuotationData()->getAdminId());
+
+$storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
+$stores = $storeManager->getStores(true, false);
+
+foreach($stores as $store){
+    if( $this->getQuotationData()->getWebsiteId() != null ){
+        if( $store->getWebsiteId() === $this->getQuotationData()->getWebsiteId() ){
+            $websiteName = $store->getWebsite($this->getQuotationData()->getWebsiteId())->getName();
+        }
+    }else{
+        $websiteName = 'Admin';
+    }
+}
+?>
+<div id="sales_order_view_tabs_order_info_content">
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-content">
+
+        <div class="box-left admin__page-section-item order-information">
+            <!--Order Information-->
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Quotation Order <?php echo $this->getQuotationData()->getIncrementId(); ?></span>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <table cellspacing="0" class="form-list admin__table-secondary order-information-table">
+                        <tbody>
+                            <tr>
+                                <td class="label"><label>Order Date</label></td>
+                                <td class="value"><strong><?php $date = date_create($this->getQuotationData()->getCreatedAt());echo date_format($date, "g:ia \o\\n l jS F Y"); ?></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label>Source Document</label></td>
+                                <td class="value">
+                                    <strong>
+                                        <?php echo $this->getQuotationData()->getSource(); ?>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label>Order Status</label></td>
+                                <td class="value"><strong><span>
+<?php                               $status_id = $this->getQuotationData()->getStatus();
+                                    if($status_id == 0)
+                                        echo __("New");
+                                    if($status_id == 1)
+                                        echo __("RFQ");
+                                    if($status_id == 2)
+                                        echo __("Confirmed");
+                                    if($status_id == 3)
+                                        echo __("Done");
+                                    if($status_id == 4)
+                                        echo __("Cancelled");              ?>
+                                </span></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="box-right admin__page-section-item order-account-information">
+            <!--Account Information-->
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Supplier Information</span>
+                    <div class="tools"></div>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list admin__table-secondary order-account-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label>Supplier Name</label></td>
+                                    <td class="value">
+<?php                                   $supplier_id = $this->getQuotationData()->getSupplierId();
+                                        $supplier = $this->getSupplier($supplier_id); ?>
+                                        <a target="_blank" href="<?php echo $this->getUrl('*/suppliers/edit',array("id"=>$supplier_id));?>"><strong><?php echo $supplier->getName(); ?></strong></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label>Email</label></td>
+<?php                                    $supplier_email = $this->getQuotationData()->getSupplierEmail(); ?>
+                                    <td class="value"><a href="mailto:<?php echo $supplier_email; ?>"><strong><?php echo $supplier_email; ?></strong></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--Created By Admin Information-->
+            <?php //if( $user->getFirstname() != null && !empty($user->getFirstname()) ){?>
+            <?php if( isset($websiteName) && $websiteName != null  ){?>
+            <div class="entry-edit">
+
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Created By Website Information</span>
+                    <div class="tools"></div>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list admin__table-secondary order-account-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label>Website Name</label></td>
+                                    <td class="value">
+                                        <strong><?php echo $websiteName; ?></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="icon-head head-account title">Created By Admin Information</span>
+                    <div class="tools"></div>
+                </div>
+                <div class="fieldset admin__page-section-item-content">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list admin__table-secondary order-account-information-table">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label>Admin Name</label></td>
+                                    <td class="value">
+                                        <strong><?php echo $user->getFirstname().' '.$user->getLastname(); ?></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label>Email</label></td>
+                                    <td class="value"><strong><?php echo $user->getEmail(); ?></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> -->
+            </div>
+            <?php } ?>
+
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+        <div class="entry-edit">
+            <div class="entry-edit-head admin__page-section-title">
+                <span class="icon-head head-products title">Items Ordered</span>
+            </div>
+        </div>
+        <div class="grid np admin__table-wrapper">
+            <div class="hor-scroll">
+                <table cellspacing="0" class="data order-tables data-table admin__table-primary edit-order-table">
+                    <thead>
+                        <tr class="headings">
+                            <th>Product</th>
+                            <th class="a-center width-eighty">Weight</th>
+                            <th class="width-eighty">Cost Price</th>
+                            <th class="a-center width-eighty">Qty</th>
+                            <th>Subtotal</th>
+                            <?php if($this->getQuotationData()->getStatus() <= 1){?>
+                                <th></th>
+                                <th></th>
+                            <?php } ?>
+                        </tr>
+                    </thead>
+<?php           $count = 1;
+                $collection = $this->getOrderItemCollection();
+                foreach ($collection as $order_item) {          ?>
+                    <tbody class="<?php if($count % 2 == 0)echo 'even';else echo 'odd';?>">
+                        <tr class="border">
+                            <td>
+                                <div class="item-container">
+                                    <div class="item-text">
+                                        <h5 class="title">
+                                            <span><?php echo $order_item->getDescription(); ?></span>
+                                        </h5>
+                                        <div><strong>SKU:</strong><?php echo $order_item->getSku(); ?></div>
+<?php                                   $option_arr = unserialize($order_item->getCustomOptions());
+                                        if($option_arr && isset($option_arr["options"])){  ?>
+                                        <dl class="item-options">
+<?php                                       foreach($option_arr["options"] as $option) {        ?>
+                                                <dt><?php echo $option["label"];?></dt>
+                                                <dd><?php echo $option["value"];?></dd>
+<?php                                       }       ?>
+                                        </dl>
+<?php                                   }   ?>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="a-center"><strong><span><?php echo $order_item->getWeight();?></span></td>
+                            <td class="a-right">
+                                <?php if($this->getQuotationData()->getStatus() > 1) { ?>
+                                    <strong><span><?php echo $helper->getFormatPrice($order_item->getBasePrice(),$currencyCode); ?></span></strong>
+                                <?php } else { ?>
+                                   <input type="text" name="price" class="item_price width-eighty" value="<?php echo round($order_item->getBasePrice(),2); ?>"/>
+                                <?php }?>
+                            </td>
+                            <td>
+                                <?php if($this->getQuotationData()->getStatus() > 1){ ?>
+                                    <table cellspacing="0" class="qty-table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Ordered</td>
+                                                <td><strong><span><?php echo $order_item->getQuantity();?></span></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Received</td>
+                                                <td><strong><span><?php echo $order_item->getReceivedQty();?></span></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <?php }else{?>
+                                    <table cellspacing="0" class="qty-table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Ordered</td>
+                                                <td><strong><input type="text" name="qty" class="item_qty width-eighty" value="<?php echo $order_item->getQuantity(); ?>"/></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <?php }?>
+                            </td>
+                            <td class="a-right"><span class="price-excl-tax"><?php echo $helper->getFormatPrice($order_item->getSubtotal(), $currencyCode); ?></span><br>
+                            </td>
+
+                            <?php if($this->getQuotationData()->getStatus() <= 1){?>
+                                <td>
+                                    <button  data-itemid="<?php echo $order_item->getEntityId();?>" class="update_item scalable save" type="button" title="Update"><span><span><span>Update</span></span></span></button>
+                                </td>
+                                <td>
+                                    <button data-itemid="<?php echo $order_item->getEntityId();?>" class="delete_item scalable delete" type="button" title="Delete"><span><span><span>Delete</span></span></span></button>
+                                </td>
+                            <?php }?>
+                        </tr>
+                    </tbody>
+<?php           $count++;
+                }           ?>
+                </table>
+            </div>
+        </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-content">
+        <div class="box-left admin__page-section-item order-comments-history">
+            <div class="entry-edit">
+                <div class="entry-edit-head admin__page-section-item-title">
+                    <span class="title">Comments History</span>
+                </div>
+                <fieldset>
+                    <div id="order_history_block">
+                        <div class="order-history-form" id="history_form">
+                            <div>Add Order Comments</div>
+                            <div class="field-row admin__field">
+                                <label class="normal admin__field-label">Status</label><br>
+                                <div class="admin__field-control">
+                                    <select class="select admin__control-select" name="status" id="order_status">
+    <?php                               if($status_id == 0)
+                                            echo "<option value='0'>".__("New")."</option>";
+                                        if($status_id == 1)
+                                            echo "<option value='1'>".__("RFQ")."</option>";
+                                        if($status_id == 2)
+                                            echo "<option value='2'>".__("Confirm")."</option>";
+                                        if($status_id == 3)
+                                            echo "<option value='3'>".__("Done")."</option>";
+                                        if($status_id == 4)
+                                            echo "<option value='4'>".__("Canceled")."</option>";     ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field-row admin__field">
+                                <label class="normal admin__field-label">Comment</label>
+                                <textarea id="main_comment" style="height:6em; width:99%;" cols="5" rows="3" name="comment"></textarea>
+                            </div>
+                            <div class="f-left admin__field">
+                                <div class="order-history-comments-options">
+                                    <input type="checkbox" value="1" id="comment_notify" name="is_customer_notified"/>
+                                    <label class="normal" for="comment_notify"> Notify Supplier by Email</label>
+                                </div>
+                                <div class="f-right order-history-comments-actions">
+                                    <button id="submit_comment" data-orderid="<?php echo $this->getRequest()->getParam("id")?>" class="scalable save" type="button" title="Submit Comment"><span><span><span>Submit Comment</span></span></span></button>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="divider"></div>
+                        <ul class="note-list">
+<?php                       $order_id = $this->getRequest()->getParam("id");
+                            $collection = $block->getHistory($order_id);
+                            $collection->setOrder('entity_id','DESC');
+                            foreach($collection as $one_comment) {        ?>
+                            <li class="note-list-item">
+                                <span class="note-list-date">
+<?php                               $date = date_create($one_comment->getCreatedAt());echo date_format($date, "g:ia \o\\n l jS F Y"); ?>
+                                </span>
+                                <span class="separator">|</span>
+                                <span class="note-list-status">
+<?php                               $status_id = $one_comment->getStatus();
+                                    if($status_id == 0)
+                                        echo __("New");
+                                    if($status_id == 1)
+                                        echo __("RFQ");
+                                    if($status_id == 2)
+                                        echo __("Confirm");
+                                    if($status_id == 3)
+                                        echo __("Done");
+                                    if($status_id == 4)
+                                        echo __("Canceled"); ?>
+                                </span><br>
+                                <small>Supplier
+<?php                               if($one_comment->getIsSupplierNotified() == 1)  {   ?>
+                                        <strong class="subdue">Notified</strong>
+<?php                               }
+                                    else   {   ?>
+                                        <strong class="subdue">Not Notified</strong>
+<?php                               }   ?>
+                                </small><br>
+<?php                           echo $one_comment->getComment();   ?>
+                            </li>
+<?php                       }           ?>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="box-right entry-edit admin__page-section-item order-totals">
+            <div class="entry-edit-head admin__page-section-item-title">
+                <span class="title">Order Totals</span>
+            </div>
+            <div class="order-totals">
+                <table width="100%" cellspacing="0" class="data-table admin__table-secondary order-subtotal-table">
+                    <colgroup>
+                        <col>
+                        <col width="1">
+                        <col width="1">
+                    </colgroup>
+                    <tfoot>
+                        <tr class="0">
+                            <td class="label">
+                                <strong>Grand Total</strong>
+                            </td>
+                            <td class="emph">
+                                <strong><?php echo $helper->getFormatPrice($this->getQuotationData()->getGrandTotal(),$currencyCode); 
+                                ?></strong>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div>
+<?php
+$formData = [
+    'comment_url' =>  $block->getUrl("purchasemanagement/history/save", ["_secure" => $this->getRequest()->isSecure()]),
+    'updateitem'  => $block->getUrl('purchasemanagement/quotation/updateitem', ["_secure" => $this->getRequest()->isSecure()]),
+    'deleteitem'  => $block->getUrl("purchasemanagement/quotation/deleteitem", ["_secure" => $this->getRequest()->isSecure()])
+];
+$serializedFormData = $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($formData);
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "quotation": <?php  echo $serializedFormData; ?>
+        }
+    }
+</script>

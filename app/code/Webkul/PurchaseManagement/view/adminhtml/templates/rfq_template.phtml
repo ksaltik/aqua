@@ -1,0 +1,58 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
+    <thead>
+        <tr>
+            <th align="left" bgcolor="#d9e5ee" style="padding:3px 9px">Item</th>
+            <th align="centre" bgcolor="#d9e5ee" style="padding:3px 9px">Base Price</th>
+            <th align="centre" bgcolor="#d9e5ee" style="padding:3px 9px">Qty</th>
+            <th align="right" bgcolor="#d9e5ee" style="padding:3px 9px">Subtotal</th>
+        </tr>
+    </thead>
+
+    <tbody>
+<?php 
+    $order = $this->getOrder();
+    $purchase_id = $order->getEntityId();
+    $items = $block->getItems($purchase_id);
+    $i=0; 
+    foreach ($items as $_item): $i++ ?>
+        <tr <?php echo $i%2?'bgcolor="#eeeded"':'' ?>>
+            <td align="left" valign="top" style="padding:3px 9px">     
+                <div>
+                    <span><?php echo $_item->getDescription(); ?></span>
+                    <div><strong>SKU:</strong><?php echo $_item->getSku(); ?></div>
+                <?php        $option_arr = unserialize($_item->getCustomOptions());
+                    if($option_arr){  ?>
+                        <dl>
+                            <?php  foreach($option_arr["options"] as $option) {        ?>
+                                        <dt><?php echo $option["label"];?></dt>
+                                        <dd><?php echo $option["value"];?></dd>
+                            <?php   }       ?>
+                        </dl>
+                    <?php        }   ?>
+                </div>
+            </td>
+            <td align="center" valign="top" style="padding:3px 9px"><?php echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getBasePrice(),true,false);?></td>
+            <td align="center" valign="top" style="padding:3px 9px"><?php echo sprintf('%s', $_item->getQuantity()) ?></td>
+            <td align="right" valign="top" style="padding:3px 9px"><?php echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getSubtotal(),true,false);?></td>
+        </tr>
+<?php endforeach ?>
+    </tbody>
+
+    <tfoot>
+        <tr bgcolor="#DEE5E8">
+            <td colspan="3" align="right" style="padding:3px 9px"><strong><big><?php echo __('Grand Total') ?></big></strong></td>
+            <td align="right" style="padding:6px 9px"><strong><big><?php echo $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($order->getGrandTotal(),true,false); ?></big></strong></td>
+        </tr>
+    </tfoot>
+</table>

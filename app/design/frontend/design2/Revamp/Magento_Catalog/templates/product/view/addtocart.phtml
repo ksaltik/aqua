@@ -1,0 +1,109 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart/Quote'); ?>
+
+<?php
+$displayNone='';
+if($_product->getSku()=='film' || $_product->getSku()=='Flakes'){
+    $displayNone='display: none';
+}
+
+?>
+<?php if ($_product->isSaleable()): ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()): ?>
+        <div class="field qty">
+            <label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Quantity ') ?></span></label>
+            <div class="control">
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
+                       title="<?= /* @escapeNotVerified */ __('Quantity ') ?>"
+                       class="input-text qty"
+                       data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                       />
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
+                    class="action primary tocart"
+                    style="<?php echo $displayNone;?>";
+                    id="product-addtocart-button">
+                <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+            </button>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<?php if ($block->isRedirectToCartEnabled()) : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/product/view/validation": {
+                "radioCheckboxClosest": ".nested"
+            }
+        }
+    }
+</script>
+<?php else : ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+    <script>
+        require(['jquery', 'jquery/ui'], function($){
+            $('#product-addtocart-button').click(function(event) {
+                /*For qty validation*/
+                var temp=0;
+                $('.bss-qty').each(function () {
+                   if($(this).val() < 0){/*For negative value*/
+                       temp++;
+                   }
+                   if($.isNumeric($(this).val())==false) { /*For string value*/
+                       temp++;
+                   }
+                });
+                if(temp > 0){
+                    alert('Please enter a valid value in QTY box.');
+                    return false;
+                }
+                /*For custom value*/
+                $('.NewTrClass').each(function () {
+                    var attribute_id=$(this).attr('data-product-id');
+                    if($(this).val() > 0){
+                        var quotename1 = "custom_quote["+attribute_id+"][1]";   //value 1
+                        var quotename2 = "custom_quote["+attribute_id+"][2]";   //value 2
+                        var quotenameval1 = $("input[name='"+quotename1+"'" ).val();
+                        var quotenameval2 = $("input[name='"+quotename2+"'" ).val();
+                        if((quotenameval1 != 'undefined' && quotenameval1 == '')  || (quotenameval2 != 'undefined' && quotenameval2 == ''))
+                        {
+                            temp++;
+                        }
+                    }
+                });
+                if(temp > 0){
+                    alert('Please enter custom value for quote item.');
+                    return false;
+                }
+                /*For custom value*/
+            });
+        });
+    </script>
+<?php endif; ?>

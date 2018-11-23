@@ -1,0 +1,145 @@
+<?php
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_MpRmaSystem
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+?>
+<?php
+    $helper = $this->helper("Webkul\MpRmaSystem\Helper\Data");
+    $allRma = $block->getAllRma();
+    $url = $this->getUrl("mprmasystem/guest/newrma");
+    $viewUrl = $this->getUrl("mprmasystem/guest/rma/");
+    $cancelUrl = $this->getUrl("mprmasystem/guest/cancel/");
+
+    $data = json_encode([
+                "filterUrl" => $this->getUrl("mprmasystem/rma/filter"),
+                "sortingUrl" => $this->getUrl("mprmasystem/rma/sorting"),
+                "confirmationLabel" => __("Confirmation"),
+                "cancelRmaLabel" => __("Do you want to cancel RMA ?"),
+                "type" => 1,
+            ]);
+?>
+<div class="wk-mprma-container">
+    <div class="wk-loading-mask wk-display-none">
+        <div class="wk-loader"></div>
+    </div>
+    <div class="wk-mp-rma-newrma">
+        <a href="<?php echo $url; ?>"><?php echo __("Request New RMA"); ?></a>
+    </div>
+    <div class="wk-mp-rma-allrma">
+        <div class="wk-mprma-container">
+            <fieldset class="fieldset wk-mprma-fieldset table-wrapper">
+                <table id="my-rma-table" class="data table wk-buyer-rma-table">
+                    <caption class="table-caption"><?php echo __("RMA History"); ?></caption>
+                    <thead class="wk-table-head-title <?php echo $helper->getSortingFieldClass(); ?> <?php echo $helper->getSortingOrderClass(); ?>">
+                        <tr>
+                            <th class="col wk-sorting-col" scope="col" data-col="wk_rma_id"><?php echo __("RMA Id"); ?></th>
+                            <th class="col wk-sorting-col" scope="col" data-col="wk_order_ref"><?php echo __("Order #"); ?></th>
+                            <th class="col" scope="col"><?php echo __("Status"); ?></th>
+                            <th class="col wk-sorting-col" data-col="wk_date"><?php echo __("Date"); ?></th>
+                            <th class="col actions" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <thead class="wk-table-head-action">
+                        <tr>
+                            <th class="col" scope="col">
+                                <input id="wk-filter-rma-id" type="text" placeholder="<?php echo __("RMA Id"); ?>" value="<?php echo $helper->getBuyerFilterRmaId(); ?>">
+                            </th>
+                            <th class="col" scope="col">
+                                <input id="wk-filter-order-ref" type="text" placeholder="<?php echo __("Order #"); ?>" value="<?php echo $helper->getBuyerFilterOrderRef(); ?>">
+                            </th>
+                            <th class="col" scope="col">
+                                <select id="wk-filter-rma-status">
+                                    <?php foreach ($helper->getAllRmaStatus() as $key => $rmaStatus): ?>
+                                        <?php if ($key === $helper->getBuyerFilterStatus()): ?>
+                                            <option selected value="<?php echo $key; ?>"><?php echo $rmaStatus; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $key; ?>"><?php echo $rmaStatus; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </th>
+                            <th class="col wk-date-filter-col" scope="col">
+                                <span class="wk-date-filter-box">
+                                    <input id="wk-filter-date-from" type="text" placeholder="<?php echo __("From"); ?>" value="<?php echo $helper->getBuyerFilterFromDate(); ?>">
+                                </span>
+                                <span class="wk-date-filter-box">
+                                    <input id="wk-filter-date-to" type="text" placeholder="<?php echo __("To"); ?>" value="<?php echo $helper->getBuyerFilterToDate(); ?>">
+                                </span>
+                            </th>
+                            <th class="col" scope="col">
+                                <button type="button" class="wk-apply-filter-btn"><?php echo __("Apply Filter"); ?></button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <?php if($allRma->getSize()): ?>
+                        <tbody>
+                            <?php foreach ($allRma as $rma): ?>
+                                <?php
+                                    $status = $rma->getStatus();
+                                    $finalStatus = $rma->getFinalStatus();
+                                    $rmaStatus = $helper->getRmaStatusTitle($status, $finalStatus);
+                                ?>
+                                <tr>
+                                    <td class="col" data-th="Id"><?php echo $rma->getId(); ?></td>
+                                    <td class="col" data-th="Order #"><?php echo $rma->getOrderRef(); ?></td>
+                                    <td class="col" data-th="Status">
+                                        <?php echo $rmaStatus; ?>
+                                    </td>
+                                    <td class="col" data-th="Date"><?php echo $block->formatDate($rma->getCreatedDate(), \IntlDateFormatter::MEDIUM, true); ?></td>
+                                    <td class="col actions" data-th="Actions">
+                                        <?php if($rma->getFinalStatus() > 0): ?>
+                                            <a class="action view" href="<?php echo $viewUrl."id/".$rma->getId()."/"; ?>">
+                                                <span><?php echo __("View"); ?></span>
+                                            </a>
+                                        <?php else: ?>
+                                            <a class="action view wk-view" href="<?php echo $viewUrl."id/".$rma->getId()."/"; ?>">
+                                                <span><?php echo __("View"); ?></span>
+                                            </a>
+                                            <a class="action order wk-cancel-rma" href="<?php echo $cancelUrl."id/".$rma->getId(); ?>">
+                                                <span><?php echo __("Cancel"); ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                        
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    <?php else: ?>
+                        <tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="message info empty">
+                                        <span><?php echo $helper->getMessage(); ?></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <?php endif; ?>
+                </table>
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                <?php endif ?>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpRmaSystem/js/cancel": <?php echo $data ?>
+        }
+    }
+</script>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "Webkul_MpRmaSystem/js/allRma": <?php echo $data ?>
+        }
+    }
+</script>

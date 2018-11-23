@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SlideTweet
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:hellomagento:Magento_Widget:etc/widget.xsd">
+    <widget class="Webkul\SlideTweet\Block\Widget\Slidetweet" id="webkul_slidetweet_posts">
+      <label translate="true">Slide Tweet</label>
+      <description>Slide Tweet</description>
+      <parameters>
+            <parameter name="slide_title" sort_order="0" visible="true" required="true" xsi:type="text">
+                <label>Title</label>
+                <description>* eg webkul</description>
+                <value>Webkul</value>
+            </parameter>
+            <parameter name="slide_title_link" sort_order="1" visible="true" required="true" xsi:type="text">
+                <label>Title Link</label>
+                <description>* page link for the title eg http://www.webkul.com</description>
+                <value>#</value>
+            </parameter>
+            <parameter name="title_bar_color" sort_order="2" visible="true" required="true" xsi:type="text">
+                <label>Title Bar Color</label>
+                <description>* eg white or color name in hex code</description>
+                <value>#cccccc</value>
+            </parameter>
+            <parameter name="title_color" sort_order="3" visible="true" required="true" xsi:type="text">
+                <label>Title Color</label>
+                <description>* eg white or color name in hex code</description>
+                <value>green</value>
+            </parameter>
+            <parameter name="tweet_color" sort_order="4" visible="true" required="true" xsi:type="text">
+                <label>Tweet Title Color</label>
+                <description>* eg white or color name in hex code</description>
+                <value>green</value>
+            </parameter>
+            <parameter name="tweets_number" sort_order="5" visible="true" required="true" xsi:type="text">
+                <label translate="true">Number of tweets</label>
+                <value>10</value>
+            </parameter>
+            <parameter name="term" xsi:type="text" visible="true" required="true" sort_order="6">
+                <label translate="true">Term</label>
+                <description>* term to be searched in tweets eg iphone</description>
+                <value>webkul</value>
+            </parameter>
+            <parameter name="frame_height" sort_order="10" visible="true" required="true" xsi:type="text">
+                <label>Frame Height</label>
+                <value>428</value>
+            </parameter>
+            <parameter name="frame_width" sort_order="15" visible="true" required="true" xsi:type="text">
+                <label>Frame Width</label>
+                <value>400</value>
+            </parameter>
+            <parameter name="frame_color" sort_order="18" visible="true" required="true" xsi:type="text">
+                <label>Frame Color</label>
+                <description>* eg red or color name in hex code</description>
+                <value>rgb(64, 64, 77)</value>
+            </parameter>
+            <parameter name="background_color" sort_order="19" visible="true" required="true" xsi:type="text">
+                <label>Background Color</label>
+                <description>* eg red or color name in hex code</description>
+                <value>rgb(64, 64, 77)</value>
+            </parameter>
+            <parameter name="frame_border_width" sort_order="20" visible="true" required="true" xsi:type="text">
+                <label>Frame Border Width</label>
+                <description>* eg 4</description>
+                <value>8</value>
+            </parameter>
+            <parameter name="icon_height" sort_order="22" visible="true" required="true" xsi:type="text">
+                <label>Icon Height</label>
+                <description>* Height of Profile Pic of Twitter user</description>
+                <value>50</value>
+            </parameter>
+            <parameter name="icon_width" sort_order="24" visible="true" required="true" xsi:type="text">
+                <label>Icon Width</label>
+                <description>* Width of Profile Pic of Twitter user</description>
+                <value>50</value>
+            </parameter>
+            <parameter name="timeout_delay" sort_order="26" visible="true" required="true" xsi:type="text">
+                <label>Time Out Delay</label>
+                <description>* eg 1000(in millisec)</description>
+                <value>2000</value>
+            </parameter>
+            <parameter name="consumer_key" sort_order="28" visible="true" required="true"  xsi:type="text">
+                <label>Consumer Key</label>
+            </parameter>
+            <parameter name="consumer_secret" sort_order="30" visible="true" required="true" xsi:type="text">
+                <label>Consumer Secret</label>
+            </parameter>
+            <parameter name="acess_token" sort_order="32" visible="true" required="true" xsi:type="text">
+                <label>Oauth Access Token</label>
+            </parameter>
+            <parameter name="acess_token_secret" sort_order="34" visible="true" required="true"  xsi:type="text">
+                <label>Oauth Access Token Secret</label>
+            </parameter>
+          </parameters>
+    </widget>
+</widgets>

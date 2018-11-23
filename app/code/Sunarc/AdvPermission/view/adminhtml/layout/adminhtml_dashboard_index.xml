@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+     <body>
+       <!--  <referenceBlock name="store_switcher" remove="true"/>-->
+
+
+         <!-- Add a custom Contact Form -->
+        <!-- <block class="Sunarc\AdvPermission\Block\Adminhtml\Store\SwitcherFilter" name="store_switcher" as="store_switcher" template="Sunarc_AdvPermission::store/switcher.phtml">
+             <action method="setUseConfirm">
+                 <argument name="params" xsi:type="string">0</argument>
+             </action>
+         </block>-->
+
+         <referenceBlock name="store_switcher">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Sunarc_AdvPermission::store/switcher.phtml</argument>
+            </action>
+          <!--  <action method="setClass">
+                <argument name="class" xsi:type="string">Sunarc\AdvPermission\Block\Adminhtml\Store\SwitcherFilter</argument>
+            </action>-->
+        </referenceBlock>
+    </body>
+</page>

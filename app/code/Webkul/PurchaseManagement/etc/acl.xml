@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!-- /**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_PurchaseManagement
+ * @author    Webkul
+ * @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+		<resources>
+			<resource id="Magento_Backend::admin">
+				<resource id="Webkul_PurchaseManagement::purchase" title="Webkul Purchase Management" sortOrder="10">
+					<resource id="Webkul_PurchaseManagement::menu" title="Menu" sortOrder="10">
+						<resource id="Webkul_PurchaseManagement::quotation" title="Quotations" sortOrder="1" />
+						<resource id="Webkul_PurchaseManagement::order" title="Purchase Order" sortOrder="2" />
+						<resource id="Webkul_PurchaseManagement::shipments" title="Incoming Shipments" sortOrder="3" />
+						<resource id="Webkul_PurchaseManagement::products" title="Incoming Products" sortOrder="4" />
+						<resource id="Webkul_PurchaseManagement::suppliers" title="Manage Suppliers" sortOrder="5" />
+						<resource id="Webkul_PurchaseManagement::config_purchasemanagement" title="Purchase Configuration" sortOrder="6" />
+					</resource>
+				</resource>
+			</resource>
+		</resources>
+	</acl>
+</config>
